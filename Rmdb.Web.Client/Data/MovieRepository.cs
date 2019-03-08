@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Rmdb.Web.Client.Data
 {
+    /* this repository is only for demo purposes */
     public class MovieRepository
     {
 
