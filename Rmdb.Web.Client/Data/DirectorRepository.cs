@@ -29,7 +29,7 @@ namespace Rmdb.Web.Client.Data
         public DirectorRepository(ISession sessionStorage)
         {
             _sessionStorage = sessionStorage;
-            Load();
+            Init();
         }
 
         public Person Get(Guid id)
@@ -37,19 +37,19 @@ namespace Rmdb.Web.Client.Data
             return _directors.FirstOrDefault(p => p.Id == id);
         }
 
-        public void Add(Person vm)
+        public void Add(Person person)
         {
-            var director = new Person(vm.Name, vm.LastName) { Id = Guid.NewGuid(), BirthDate = vm.BirthDate, Deceased = vm.Deceased };
-            _directors.Add(director);
+            person.Id = Guid.NewGuid();
+            _directors.Add(person);
             Save();
         }
-        public void Update(Guid id, Person vm)
+        public void Update(Guid id, Person director)
         {
-            var director = _directors.First(p => p.Id == id);
-            director.Name = vm.Name;
-            director.LastName = vm.LastName;
-            director.BirthDate = vm.BirthDate;
-            director.Deceased = vm.Deceased;
+            var oldVersion = _directors.First(p => p.Id == id);
+            oldVersion.Name = director.Name;
+            oldVersion.LastName = director.LastName;
+            oldVersion.BirthDate = director.BirthDate;
+            oldVersion.Deceased = director.Deceased;
 
             Save();
         }
@@ -66,27 +66,24 @@ namespace Rmdb.Web.Client.Data
 
         private void Init()
         {
-            _directors = new List<Person> {
-                new Person("Christopher", "Nolan") { Id=Guid.NewGuid(), BirthDate= new DateTime(1970,7,30)},
-                new Person("Steven", "Spielberg") { Id=Guid.NewGuid(), BirthDate= new DateTime(1948,12,18)},
-                new Person("Martin", "Scorsese") { Id=Guid.NewGuid(), BirthDate= new DateTime(1942,10,17)},
-                new Person("Alfred", "Hitchcock") { Id=Guid.NewGuid(), BirthDate= new DateTime(1899,8,13), Deceased = new DateTime(1980,4,29)},
-                new Person("Hayao", "Miyazaki") { Id=Guid.NewGuid(), BirthDate= new DateTime(1941,1,5)},
-            };
 
-            Save();
-        }
-        private void Load()
-        {
             var content = _sessionStorage.GetString(Key);
             if (string.IsNullOrEmpty(content))
             {
-                Init();
+                _directors = new List<Person> {
+                    new Person("Christopher", "Nolan") { Id=Guid.NewGuid(), BirthDate= new DateTime(1970,7,30)},
+                    new Person("Steven", "Spielberg") { Id=Guid.NewGuid(), BirthDate= new DateTime(1948,12,18)},
+                    new Person("Martin", "Scorsese") { Id=Guid.NewGuid(), BirthDate= new DateTime(1942,10,17)},
+                    new Person("Alfred", "Hitchcock") { Id=Guid.NewGuid(), BirthDate= new DateTime(1899,8,13), Deceased = new DateTime(1980,4,29)},
+                    new Person("Hayao", "Miyazaki") { Id=Guid.NewGuid(), BirthDate= new DateTime(1941,1,5)},
+                };
+                Save();
                 return;
             }
 
             _directors = JsonConvert.DeserializeObject<Person[]>(content).ToList();
         }
+
         private void Save()
         {
             var content = JsonConvert.SerializeObject(_directors.ToArray());
