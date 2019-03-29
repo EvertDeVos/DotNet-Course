@@ -13,4 +13,8 @@
     <ProjectReference Include="..\..\Rmdb.Domain.Model\Rmdb.Domain.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

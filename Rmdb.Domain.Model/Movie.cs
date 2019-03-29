@@ -16,8 +16,8 @@ namespace Rmdb.Domain.Model
         public double Score { get; set; }
         public bool Color { get; set; }
 
-        public virtual List<Person> Directors { get; set; }
-        public virtual List<Person> Actors { get; set; }
+        public virtual ICollection<MovieDirector> Directors { get; set; }
+        public virtual ICollection<MoviePerson> Actors { get; set; }
 
         // entity framework constructor
         private Movie()

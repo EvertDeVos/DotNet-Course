@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Rmdb.Domain.Model
 {
     public class Person
     {
-
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
         public DateTime? BirthDate { get; set; }
         public DateTime? Deceased { get; set; }
+
+        public virtual ICollection<MoviePerson> PlayedMovies { get; set; }
+        public virtual ICollection<MovieDirector> DirectedMovies { get; set; }
 
         private Person() { }
 

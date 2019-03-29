@@ -9,6 +9,7 @@ using Rmdb.Domain.Dtos.Movies;
 using Rmdb.Domain.Model;
 using Rmdb.Domain.Services;
 using Rmdb.Domain.Services.Impl;
+using Rmdb.Domain.Services.Profiles;
 using Rmdb.Infrastructure;
 
 namespace Rmdb.Web.Api
@@ -28,10 +29,10 @@ namespace Rmdb.Web.Api
         {
             services.AddDbContext<RmdbContext>(opt => opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            Mapper.Initialize(cfg => { });
-
-            services.AddAutoMapper();
-
+            Mapper.Initialize(cfg => {
+                cfg.AddProfile<MovieProfile>();
+            });
+            
             services.AddMvc()
                 .AddNewtonsoftJson();
 
