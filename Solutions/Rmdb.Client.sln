@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{A2E1DE4D-425
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{D89B2854-9E7A-4A4A-A2F9-6EE1097C012A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rmdb.Web.Api", "..\Rmdb.Web.Api\Rmdb.Web.Api.csproj", "{701C77AE-2E75-4C31-9F81-6B50B6919DED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{CEE68062-A4FC-414B-B2CF-318897B31E6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEE68062-A4FC-414B-B2CF-318897B31E6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEE68062-A4FC-414B-B2CF-318897B31E6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{701C77AE-2E75-4C31-9F81-6B50B6919DED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{701C77AE-2E75-4C31-9F81-6B50B6919DED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{701C77AE-2E75-4C31-9F81-6B50B6919DED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{701C77AE-2E75-4C31-9F81-6B50B6919DED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{4F36CAC2-8222-4C83-ABA2-9997B52ADBDC} = {A2E1DE4D-4255-456F-A6F9-6DF7D34A1BA4}
 		{CEE68062-A4FC-414B-B2CF-318897B31E6C} = {D89B2854-9E7A-4A4A-A2F9-6EE1097C012A}
+		{701C77AE-2E75-4C31-9F81-6B50B6919DED} = {A2E1DE4D-4255-456F-A6F9-6DF7D34A1BA4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {148BFEB0-FD1A-4A5F-BEC8-240D57C4F7F3}
