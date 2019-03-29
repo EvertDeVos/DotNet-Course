@@ -6,12 +6,16 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0-preview3-19153-02" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0-preview3.19153.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.0.0-preview3.19153.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.0.0-preview3.19153.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Rmdb.Domain.Dtos\Rmdb.Domain.Dtos.csproj" />
     <ProjectReference Include="..\Rmdb.Domain.Model\Rmdb.Domain.Model.csproj" />
     <ProjectReference Include="..\Rmdb.Domain.Services\Rmdb.Domain.Services.csproj" />
+    <ProjectReference Include="..\Solutions\Rmdb.Infrastructure\Rmdb.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

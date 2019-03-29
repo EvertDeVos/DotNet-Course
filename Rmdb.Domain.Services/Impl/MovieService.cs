@@ -6,6 +6,11 @@ namespace Rmdb.Domain.Services.Impl
 {
     public class MovieService : IMovieService
     {
+        public MovieService()
+        {
+
+        }
+
         public IEnumerable<MovieListDto> GetMovies()
         {
             return new MovieListDto[]
