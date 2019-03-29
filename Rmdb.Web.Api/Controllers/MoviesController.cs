@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Rmdb.Domain.Model;
+using Rmdb.Domain.Services;
 using System.Collections.Generic;
 
 namespace Rmdb.Web.Api.Controllers
@@ -7,10 +9,17 @@ namespace Rmdb.Web.Api.Controllers
     [ApiController]
     public class MoviesController : ControllerBase
     {
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        private readonly IMovieService _movieService;
+
+        public MoviesController(IMovieService movieService)
         {
-            return new string[] { "American Pie", "Scarface", "Home Alone" };
+            _movieService = movieService;
+        }
+
+        [HttpGet]
+        public ActionResult<IEnumerable<Movie>> Get()
+        {
+            return Ok(_movieService.GetMovies());
         }
     }
 }

@@ -2,11 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Enums\" />
+    <ProjectReference Include="..\Rmdb.Domain.Model\Rmdb.Domain.Model.csproj" />
   </ItemGroup>
 
 </Project>
