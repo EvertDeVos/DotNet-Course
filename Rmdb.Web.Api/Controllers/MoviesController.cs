@@ -3,6 +3,7 @@ using Rmdb.Domain.Dtos.Movies;
 using Rmdb.Domain.Model;
 using Rmdb.Domain.Services;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Rmdb.Web.Api.Controllers
 {
@@ -18,9 +19,9 @@ namespace Rmdb.Web.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<MovieListDto>> Get()
+        public async Task<ActionResult<IEnumerable<MovieListDto>>> Get()
         {
-            return Ok(_movieService.GetMovies());
+            return Ok(await _movieService.GetMoviesAsync());
         }
     }
 }

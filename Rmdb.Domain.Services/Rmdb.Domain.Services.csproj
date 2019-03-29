@@ -5,8 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0-preview3.19153.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Rmdb.Domain.Dtos\Rmdb.Domain.Dtos.csproj" />
     <ProjectReference Include="..\Rmdb.Domain.Model\Rmdb.Domain.Model.csproj" />
+    <ProjectReference Include="..\Solutions\Rmdb.Infrastructure\Rmdb.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,11 @@
 ﻿using Rmdb.Domain.Dtos.Movies;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Rmdb.Domain.Services
 {
     public interface IMovieService
     {
-        IEnumerable<MovieListDto> GetMovies();
+        Task<IEnumerable<MovieListDto>> GetMoviesAsync();
     }
 }

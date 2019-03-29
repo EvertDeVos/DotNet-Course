@@ -1,23 +1,26 @@
-﻿using Rmdb.Domain.Dtos.Movies;
+﻿using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
+using Rmdb.Domain.Dtos.Movies;
+using Rmdb.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Rmdb.Domain.Services.Impl
 {
     public class MovieService : IMovieService
     {
-        public MovieService()
-        {
+        private readonly RmdbContext _ctx;
 
+        public MovieService(RmdbContext ctx)
+        {
+            _ctx = ctx;
         }
 
-        public IEnumerable<MovieListDto> GetMovies()
+        public async Task<IEnumerable<MovieListDto>> GetMoviesAsync()
         {
-            return new MovieListDto[]
-            {
-                new MovieListDto(Guid.NewGuid(), "FC De Kampioenen"),
-                new MovieListDto(Guid.NewGuid(), "Scarface")
-            };
+            return await _ctx.Movies.ProjectTo<MovieListDto>().ToListAsync();
         }
     }
 }
