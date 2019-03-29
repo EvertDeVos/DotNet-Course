@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Rmdb.Domain.Dtos.Movies;
 using Rmdb.Domain.Model;
 using Rmdb.Domain.Services;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Rmdb.Web.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Movie>> Get()
+        public ActionResult<IEnumerable<MovieListDto>> Get()
         {
             return Ok(_movieService.GetMovies());
         }

@@ -1,19 +1,17 @@
-﻿using System;
+﻿using Rmdb.Domain.Dtos.Movies;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using Rmdb.Domain.Model;
 
 namespace Rmdb.Domain.Services.Impl
 {
     public class MovieService : IMovieService
     {
-        public IEnumerable<Movie> GetMovies()
+        public IEnumerable<MovieListDto> GetMovies()
         {
-            return new Movie[]
+            return new MovieListDto[]
             {
-                new Movie("Scarface"),
-                new Movie("American Pie"),
-                new Movie("FC De Kampioenen")
+                new MovieListDto(Guid.NewGuid(), "FC De Kampioenen"),
+                new MovieListDto(Guid.NewGuid(), "Scarface")
             };
         }
     }

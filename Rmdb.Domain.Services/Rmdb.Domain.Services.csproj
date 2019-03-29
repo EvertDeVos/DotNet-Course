@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Rmdb.Domain.Dtos\Rmdb.Domain.Dtos.csproj" />
     <ProjectReference Include="..\Rmdb.Domain.Model\Rmdb.Domain.Model.csproj" />
   </ItemGroup>
 
