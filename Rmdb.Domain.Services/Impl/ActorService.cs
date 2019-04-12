@@ -25,7 +25,7 @@ namespace Rmdb.Domain.Services.Impl
 
         public async Task<ActorDetailDto> GetAsync(Guid id)
         {
-            return await _ctx.Movies.ProjectTo<ActorDetailDto>().SingleOrDefaultAsync(x => x.Id == id);
+            return await _ctx.Actors.ProjectTo<ActorDetailDto>().SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Guid> AddAsync(AddActorDto addActor)
@@ -52,6 +52,8 @@ namespace Rmdb.Domain.Services.Impl
             actor.LastName = editActor.LastName;
             actor.BirthDate = editActor.BirthDate;
             actor.Deceased = editActor.Deceased;
+
+            await _ctx.SaveChangesAsync();
 
             return Mapper.Map<ActorDetailDto>(actor);
         }
