@@ -31,7 +31,7 @@ namespace Rmdb.Web.Api.Controllers
         {
             var movie = await _movieService.GetAsync(id);
 
-            if(movie == null)
+            if (movie == null)
             {
                 return NotFound();
             }
@@ -41,11 +41,21 @@ namespace Rmdb.Web.Api.Controllers
 
         // POST api/movies
         [HttpPost]
-        public async Task<ActionResult> Post ([FromBody] AddMovieDto movie)
+        public async Task<ActionResult> Post([FromBody] AddMovieDto addMovie)
         {
-            var id = await _movieService.AddAsync(movie);
+            var id = await _movieService.AddAsync(addMovie);
 
             return CreatedAtAction("Get", new { Id = id });
         }
+
+        // PUT api/movies/{id}
+        [HttpPut("{id:Guid}")]
+        public async Task<IActionResult> Put(Guid id, [FromBody] EditMovieDto editMovie)
+        {
+            var movie = await _movieService.UpdateAsync(id, editMovie);
+
+            return Ok(movie);
+        }
+
     }
 }

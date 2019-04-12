@@ -10,5 +10,6 @@ namespace Rmdb.Domain.Services
         Task<IEnumerable<MovieListDto>> GetAsync();
         Task<MovieDetailDto> GetAsync(Guid id);
         Task<Guid> AddAsync(AddMovieDto movie);
+        Task<MovieDetailDto> UpdateAsync(Guid id, EditMovieDto editMovie);
     }
 }

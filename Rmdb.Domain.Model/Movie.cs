@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Rmdb.Domain.Model
 {
@@ -17,7 +16,7 @@ namespace Rmdb.Domain.Model
         public bool Color { get; set; }
         public virtual ICollection<MovieActor> Actors { get; set; }
 
-        // entity framework constructor
+        // Private constructor for EF
         private Movie()
         {
 

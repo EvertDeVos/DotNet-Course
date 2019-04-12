@@ -8,7 +8,7 @@ namespace Rmdb.Domain.Services.Profiles
     {
         public MovieProfile()
         {
-            
+            CreateMap<Movie, MovieDetailDto>();
         }
     }
 }

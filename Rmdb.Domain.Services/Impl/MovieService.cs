@@ -1,4 +1,5 @@
-﻿using AutoMapper.QueryableExtensions;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Rmdb.Domain.Dtos.Movies;
 using Rmdb.Domain.Model;
@@ -30,13 +31,32 @@ namespace Rmdb.Domain.Services.Impl
 
         public async Task<Guid> AddAsync(AddMovieDto movie)
         {
-            var newMovie = new Movie(movie.Title);
+            var newMovie = new Movie(movie.Title)
+            {
+                Description = movie.Description
+            };
 
             await _ctx.Movies.AddAsync(newMovie);
 
             await _ctx.SaveChangesAsync();
 
             return newMovie.Id;
+        }
+
+        public async Task<MovieDetailDto> UpdateAsync(Guid id, EditMovieDto editMovie)
+        {
+            var movie = await _ctx.Movies.FindAsync(id);
+
+            movie.Title = editMovie.Title;
+            movie.Description = editMovie.Description;
+            movie.ReleaseDate = editMovie.ReleaseDate;
+            movie.RunTime = editMovie.RunTime;
+            movie.Score = editMovie.Score;
+            movie.Color = editMovie.Color;
+
+            await _ctx.SaveChangesAsync();
+
+            return Mapper.Map<MovieDetailDto>(movie);
         }
     }
 }
