@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using Rmdb.Domain.Dtos.Actors;
 using Rmdb.Domain.Dtos.Movies;
 using Rmdb.Domain.Model;
 using Rmdb.Infrastructure;
@@ -26,7 +27,16 @@ namespace Rmdb.Domain.Services.Impl
 
         public async Task<MovieDetailDto> GetAsync(Guid id)
         {
-            return await _ctx.Movies.ProjectTo<MovieDetailDto>().SingleOrDefaultAsync(x => x.Id == id);
+            var movie = await _ctx.Movies
+                .Include(x => x.Actors)
+                .ThenInclude(y => y.Actor)
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            return await _ctx.Movies
+                .Include(x => x.Actors)
+                .ThenInclude(y => y.Actor)
+                .ProjectTo<MovieDetailDto>()
+                .SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Guid> AddAsync(AddMovieDto movie)
@@ -78,6 +88,23 @@ namespace Rmdb.Domain.Services.Impl
             await _ctx.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<ActorListDto> AddActorToMovieAsync(Guid movieId, AddActorToMovieDto addActor)
+        {
+            var movie = await _ctx.Movies.FindAsync(movieId);
+            var actor = await _ctx.Actors.FindAsync(addActor.ActorId);
+
+            if (movie == null || actor == null)
+            {
+                return null;
+            }
+
+            movie.Actors.Add(new MovieActor(movieId, addActor.ActorId));
+
+            await _ctx.SaveChangesAsync();
+
+            return Mapper.Map<ActorListDto>(actor);
         }
     }
 }

@@ -14,9 +14,9 @@ namespace Rmdb.Domain.Model
 
         public double Score { get; set; }
         public bool Color { get; set; }
-        public virtual ICollection<MovieActor> Actors { get; set; }
+        public virtual ICollection<MovieActor> Actors { get; set; } = new List<MovieActor>();
 
-        // Private constructor for EF
+        // Private empty constructor for EF
         private Movie()
         {
 

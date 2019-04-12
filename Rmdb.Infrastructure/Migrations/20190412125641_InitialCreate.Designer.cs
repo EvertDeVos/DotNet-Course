@@ -9,7 +9,7 @@ using Rmdb.Infrastructure;
 namespace Rmdb.Infrastructure.Migrations
 {
     [DbContext(typeof(RmdbContext))]
-    [Migration("20190412095800_InitialCreate")]
+    [Migration("20190412125641_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,14 +73,14 @@ namespace Rmdb.Infrastructure.Migrations
 
             modelBuilder.Entity("Rmdb.Domain.Model.MovieActor", b =>
                 {
-                    b.HasOne("Rmdb.Domain.Model.Movie", "Movie")
-                        .WithMany("Actors")
-                        .HasForeignKey("ActorId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("Rmdb.Domain.Model.Person", "Actor")
                         .WithMany("PlayedMovies")
                         .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Rmdb.Domain.Model.Movie", "Movie")
+                        .WithMany("Actors")
+                        .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

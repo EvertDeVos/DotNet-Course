@@ -13,6 +13,7 @@ namespace Rmdb.Domain.Model
 
         public virtual ICollection<MovieActor> PlayedMovies { get; set; }
 
+        // Private empty constructor for EF
         private Person() { }
 
         public Person(string name, string lastName)

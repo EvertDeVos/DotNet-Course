@@ -61,6 +61,7 @@ namespace Rmdb.Web.Api.Controllers
             return Ok(movie);
         }
 
+        // DELETE api/movies/{id}
         [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -74,5 +75,18 @@ namespace Rmdb.Web.Api.Controllers
             return NoContent();
         }
 
+        // PUT api/movies/{id}/actors
+        [HttpPut("{id:Guid}/actors")]
+        public async Task<IActionResult> AddActor(Guid id, [FromBody]AddActorToMovieDto addActor)
+        {
+            var actor = await _movieService.AddActorToMovieAsync(id, addActor);
+
+            if(actor == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(actor);
+        }
     }
 }

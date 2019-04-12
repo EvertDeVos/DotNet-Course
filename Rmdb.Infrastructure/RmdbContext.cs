@@ -19,7 +19,7 @@ namespace Rmdb.Infrastructure
             modelBuilder.Entity<MovieActor>()
                 .HasOne(mp => mp.Movie)
                 .WithMany(m => m.Actors)
-                .HasForeignKey(mp => mp.ActorId);
+                .HasForeignKey(mp => mp.MovieId);
 
             modelBuilder.Entity<MovieActor>()
                 .HasOne(mp => mp.Actor)

@@ -30,11 +30,13 @@ namespace Rmdb.Web.Api
 
             Mapper.Initialize(cfg => {
                 cfg.AddProfile<MovieProfile>();
+                cfg.AddProfile<ActorProfile>();
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddTransient<IMovieService, MovieService>();
+            services.AddTransient<IActorService, ActorService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

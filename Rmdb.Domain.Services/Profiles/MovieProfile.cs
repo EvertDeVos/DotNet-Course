@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Rmdb.Domain.Dtos.Movies;
 using Rmdb.Domain.Model;
+using System.Linq;
 
 namespace Rmdb.Domain.Services.Profiles
 {
@@ -8,7 +9,8 @@ namespace Rmdb.Domain.Services.Profiles
     {
         public MovieProfile()
         {
-            CreateMap<Movie, MovieDetailDto>();
+            CreateMap<Movie, MovieDetailDto>()
+                .ForMember(dto => dto.Actors, opt => opt.MapFrom(movie => movie.Actors.Select(x => x.Actor)));
         }
     }
 }
