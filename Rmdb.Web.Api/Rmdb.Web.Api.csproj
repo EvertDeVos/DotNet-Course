@@ -17,7 +17,7 @@
     <ProjectReference Include="..\Rmdb.Domain.Dtos\Rmdb.Domain.Dtos.csproj" />
     <ProjectReference Include="..\Rmdb.Domain.Model\Rmdb.Domain.Model.csproj" />
     <ProjectReference Include="..\Rmdb.Domain.Services\Rmdb.Domain.Services.csproj" />
-    <ProjectReference Include="..\Solutions\Rmdb.Infrastructure\Rmdb.Infrastructure.csproj" />
+    <ProjectReference Include="..\Rmdb.Infrastructure\Rmdb.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

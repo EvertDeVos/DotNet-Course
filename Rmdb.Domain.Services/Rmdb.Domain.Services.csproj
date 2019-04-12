@@ -12,7 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Rmdb.Domain.Dtos\Rmdb.Domain.Dtos.csproj" />
     <ProjectReference Include="..\Rmdb.Domain.Model\Rmdb.Domain.Model.csproj" />
-    <ProjectReference Include="..\Solutions\Rmdb.Infrastructure\Rmdb.Infrastructure.csproj" />
+    <ProjectReference Include="..\Rmdb.Infrastructure\Rmdb.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
