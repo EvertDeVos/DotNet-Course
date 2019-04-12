@@ -9,7 +9,7 @@ using Rmdb.Infrastructure;
 namespace Rmdb.Infrastructure.Migrations
 {
     [DbContext(typeof(RmdbContext))]
-    [Migration("20190412072249_InitialCreate")]
+    [Migration("20190412095800_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,9 +27,9 @@ namespace Rmdb.Infrastructure.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<DateTime>("ReleaseDate");
+                    b.Property<DateTime?>("ReleaseDate");
 
-                    b.Property<TimeSpan>("RunTime");
+                    b.Property<TimeSpan?>("RunTime");
 
                     b.Property<double>("Score");
 

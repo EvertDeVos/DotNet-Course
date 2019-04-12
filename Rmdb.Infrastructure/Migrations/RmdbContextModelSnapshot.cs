@@ -25,9 +25,9 @@ namespace Rmdb.Infrastructure.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<DateTime>("ReleaseDate");
+                    b.Property<DateTime?>("ReleaseDate");
 
-                    b.Property<TimeSpan>("RunTime");
+                    b.Property<TimeSpan?>("RunTime");
 
                     b.Property<double>("Score");
 

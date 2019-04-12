@@ -29,8 +29,8 @@ namespace Rmdb.Infrastructure.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    ReleaseDate = table.Column<DateTime>(nullable: false),
-                    RunTime = table.Column<TimeSpan>(nullable: false),
+                    ReleaseDate = table.Column<DateTime>(nullable: true),
+                    RunTime = table.Column<TimeSpan>(nullable: true),
                     Score = table.Column<double>(nullable: false),
                     Color = table.Column<bool>(nullable: false)
                 },

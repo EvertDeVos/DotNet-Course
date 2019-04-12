@@ -2,7 +2,6 @@
 using Rmdb.Domain.Dtos.Movies;
 using Rmdb.Domain.Services;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Rmdb.Web.Api.Controllers
@@ -54,7 +53,25 @@ namespace Rmdb.Web.Api.Controllers
         {
             var movie = await _movieService.UpdateAsync(id, editMovie);
 
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
             return Ok(movie);
+        }
+
+        [HttpDelete("{id:Guid}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var deleted = await _movieService.DeleteAsync(id);
+
+            if (!deleted)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
 
     }

@@ -47,6 +47,11 @@ namespace Rmdb.Domain.Services.Impl
         {
             var movie = await _ctx.Movies.FindAsync(id);
 
+            if (movie == null)
+            {
+                return null;
+            }
+
             movie.Title = editMovie.Title;
             movie.Description = editMovie.Description;
             movie.ReleaseDate = editMovie.ReleaseDate;
@@ -57,6 +62,22 @@ namespace Rmdb.Domain.Services.Impl
             await _ctx.SaveChangesAsync();
 
             return Mapper.Map<MovieDetailDto>(movie);
+        }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            var movie = await _ctx.Movies.FindAsync(id);
+
+            if (movie == null)
+            {
+                return false;
+            }
+
+            _ctx.Movies.Remove(movie);
+
+            await _ctx.SaveChangesAsync();
+
+            return true;
         }
     }
 }
