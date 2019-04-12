@@ -25,7 +25,9 @@ namespace Rmdb.Domain.Services.Impl
 
         public async Task<ActorDetailDto> GetAsync(Guid id)
         {
-            return await _ctx.Actors.ProjectTo<ActorDetailDto>().SingleOrDefaultAsync(x => x.Id == id);
+            return await _ctx.Actors
+                .ProjectTo<ActorDetailDto>()
+                .SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Guid> AddAsync(AddActorDto addActor)
