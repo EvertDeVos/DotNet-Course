@@ -1,12 +1,11 @@
+
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Rmdb.Domain.Dtos.Movies;
-using Rmdb.Domain.Model;
 using Rmdb.Domain.Services;
 using Rmdb.Domain.Services.Impl;
 using Rmdb.Domain.Services.Profiles;
@@ -32,15 +31,14 @@ namespace Rmdb.Web.Api
             Mapper.Initialize(cfg => {
                 cfg.AddProfile<MovieProfile>();
             });
-            
-            services.AddMvc()
-                .AddNewtonsoftJson();
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddTransient<IMovieService, MovieService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -49,10 +47,7 @@ namespace Rmdb.Web.Api
 
             app.UseHttpsRedirection();
 
-            app.UseRouting(routes =>
-            {
-                routes.MapControllers();
-            });
+            app.UseMvc();
         }
     }
 }
