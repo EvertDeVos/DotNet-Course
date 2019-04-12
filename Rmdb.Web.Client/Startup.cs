@@ -17,7 +17,8 @@ namespace Rmdb.Web.Client
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        { 
+
             // added for demo purposes
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
@@ -25,11 +26,11 @@ namespace Rmdb.Web.Client
                 // Set a short timeout for easy testing.
                 options.IdleTimeout = TimeSpan.FromMinutes(10);
                 options.Cookie.HttpOnly = true;
-            });
+            }); 
 
-            services.AddMvc()
-                .AddNewtonsoftJson();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -40,27 +41,23 @@ namespace Rmdb.Web.Client
             }
             else
             {
-                // app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                // app.UseHsts();
+                //app.UseExceptionHandler("/Home/Error");
+                //// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                //app.UseHsts();
             }
+
 
             // app.UseHttpsRedirection();
             app.UseStaticFiles();
             // for demo purposes
             app.UseSession();
-
-            app.UseRouting(routes =>
+             
+            app.UseMvc(routes =>
             {
-                routes.MapControllerRoute(
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-                routes.MapRazorPages();
             });
-
-            // app.UseCookiePolicy();
-
-            // app.UseAuthorization();
-        }
+        } 
     }
 }
