@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Rmdb.Domain.Dtos\Rmdb.Domain.Dtos.csproj" />
+    <ProjectReference Include="..\Rmdb.Domain.Model\Rmdb.Domain.Model.csproj" />
+    <ProjectReference Include="..\Solutions\Rmdb.Infrastructure\Rmdb.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
