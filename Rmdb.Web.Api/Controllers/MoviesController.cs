@@ -29,7 +29,14 @@ namespace Rmdb.Web.Api.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            return Ok(await _movieService.GetAsync(id));
+            var movie = await _movieService.GetAsync(id);
+
+            if(movie == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(movie);
         }
 
         // POST api/movies

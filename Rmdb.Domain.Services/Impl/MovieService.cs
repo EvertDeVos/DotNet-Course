@@ -25,7 +25,7 @@ namespace Rmdb.Domain.Services.Impl
 
         public async Task<MovieDetailDto> GetAsync(Guid id)
         {
-            return await _ctx.Movies.ProjectTo<MovieDetailDto>().SingleAsync(x => x.Id == id);
+            return await _ctx.Movies.ProjectTo<MovieDetailDto>().SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Guid> AddAsync(AddMovieDto movie)
