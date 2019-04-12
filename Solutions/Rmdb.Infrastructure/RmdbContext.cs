@@ -12,16 +12,16 @@ namespace Rmdb.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<MoviePerson>()
-                .ToTable("MovieActors")
+            modelBuilder.Entity<MovieActor>()
+                .ToTable("MovieActor")
                 .HasKey(mp => new { mp.MovieId, mp.ActorId });
 
-            modelBuilder.Entity<MoviePerson>()
+            modelBuilder.Entity<MovieActor>()
                 .HasOne(mp => mp.Movie)
                 .WithMany(m => m.Actors)
                 .HasForeignKey(mp => mp.ActorId);
 
-            modelBuilder.Entity<MoviePerson>()
+            modelBuilder.Entity<MovieActor>()
                 .HasOne(mp => mp.Actor)
                 .WithMany(m => m.PlayedMovies)
                 .HasForeignKey(mp => mp.ActorId);

@@ -2,7 +2,7 @@
 
 namespace Rmdb.Domain.Model
 {
-    public class MoviePerson
+    public class MovieActor
     {
         public Guid MovieId { get; set; }
         public Movie Movie { get; set; }

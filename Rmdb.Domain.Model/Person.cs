@@ -11,8 +11,7 @@ namespace Rmdb.Domain.Model
         public DateTime? BirthDate { get; set; }
         public DateTime? Deceased { get; set; }
 
-        public virtual ICollection<MoviePerson> PlayedMovies { get; set; }
-        public virtual ICollection<MovieDirector> DirectedMovies { get; set; }
+        public virtual ICollection<MovieActor> PlayedMovies { get; set; }
 
         private Person() { }
 
