@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Rmdb.Domain.Model;
 using Rmdb.Domain.Model.Extensions;
-using Rmdb.Web.Client.ViewModels.Director;
+using Rmdb.Web.Client.ViewModels.Actors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,22 +11,22 @@ using System.Threading.Tasks;
 namespace Rmdb.Web.Client.Data
 {
     /* this repository is only for demo purposes */
-    public class DirectorRepository
+    public class ActorRepository
     {
-        private const string Key = "Directors";
+        private const string Key = "Actors";
 
         private readonly ISession _sessionStorage;
-        private List<Person> _directors;
+        private List<Person> _actors;
 
-        public IEnumerable<Person> Directors
+        public IEnumerable<Person> Actors
         {
             get
             {
-                return _directors;
+                return _actors;
             }
         }
 
-        public DirectorRepository(ISession sessionStorage)
+        public ActorRepository(ISession sessionStorage)
         {
             _sessionStorage = sessionStorage;
             Init();
@@ -34,32 +34,33 @@ namespace Rmdb.Web.Client.Data
 
         public Person Get(Guid id)
         {
-            return _directors.FirstOrDefault(p => p.Id == id);
+            return _actors.FirstOrDefault(p => p.Id == id);
         }
 
         public void Add(Person person)
         {
             person.Id = Guid.NewGuid();
-            _directors.Add(person);
+            _actors.Add(person);
             Save();
         }
-        public void Update(Guid id, Person director)
+        public void Update(Guid id, Person actor)
         {
-            var oldVersion = _directors.First(p => p.Id == id);
-            oldVersion.Name = director.Name;
-            oldVersion.LastName = director.LastName;
-            oldVersion.BirthDate = director.BirthDate;
-            oldVersion.Deceased = director.Deceased;
+            var oldVersion = _actors.First(p => p.Id == id);
+            oldVersion.Name = actor.Name;
+            oldVersion.LastName = actor.LastName;
+            oldVersion.BirthDate = actor.BirthDate;
+            oldVersion.Deceased = actor.Deceased;
+            oldVersion.PlayedMovies = actor.PlayedMovies;
 
             Save();
         }
 
         public void Delete(Guid id)
         {
-            var director = _directors.FirstOrDefault(p => p.Id == id);
-            if (director != null)
+            var actor = _actors.FirstOrDefault(p => p.Id == id);
+            if (actor != null)
             {
-                _directors.Remove(director);
+                _actors.Remove(actor);
                 Save();
             }
         }
@@ -70,7 +71,7 @@ namespace Rmdb.Web.Client.Data
             var content = _sessionStorage.GetString(Key);
             if (string.IsNullOrEmpty(content))
             {
-                _directors = new List<Person> {
+                _actors = new List<Person> {
                     new Person("Christopher", "Nolan") { Id=Guid.NewGuid(), BirthDate= new DateTime(1970,7,30)},
                     new Person("Steven", "Spielberg") { Id=Guid.NewGuid(), BirthDate= new DateTime(1948,12,18)},
                     new Person("Martin", "Scorsese") { Id=Guid.NewGuid(), BirthDate= new DateTime(1942,10,17)},
@@ -81,12 +82,12 @@ namespace Rmdb.Web.Client.Data
                 return;
             }
 
-            _directors = JsonConvert.DeserializeObject<Person[]>(content).ToList();
+            _actors = JsonConvert.DeserializeObject<Person[]>(content).ToList();
         }
 
-        private void Save()
+        public void Save()
         {
-            var content = JsonConvert.SerializeObject(_directors.ToArray());
+            var content = JsonConvert.SerializeObject(_actors.ToArray());
             _sessionStorage.SetString(Key, content);
         }
     }

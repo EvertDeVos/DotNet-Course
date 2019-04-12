@@ -6,17 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using Rmdb.Domain.Model;
 using Rmdb.Domain.Model.Extensions;
 using Rmdb.Web.Client.Data;
-using Rmdb.Web.Client.ViewModels.Director;
+using Rmdb.Web.Client.ViewModels.Actors;
 
 namespace Rmdb.Web.Client.Controllers
 {
-    public class DirectorsController : Controller
+    public class ActorsController : Controller
     {
         public IActionResult Index()
         {
-            var repository = new DirectorRepository(HttpContext.Session);
-            var viewModels = repository.Directors
-                .Select(director => new DirectorViewModel
+            var repository = new ActorRepository(HttpContext.Session);
+            var viewModels = repository.Actors
+                .Select(director => new ActorViewModel
                 {
                     Id = director.Id,
                     FullName = $"{director.Name}, {director.LastName}",
@@ -34,7 +34,7 @@ namespace Rmdb.Web.Client.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(DirectorCreateViewModel viewModel)
+        public IActionResult Create(ActorCreateViewModel viewModel)
         {
 
             if (!TryValidateModel(viewModel))
@@ -42,7 +42,7 @@ namespace Rmdb.Web.Client.Controllers
                 return View(viewModel);
             }
 
-            var repository = new DirectorRepository(HttpContext.Session);
+            var repository = new ActorRepository(HttpContext.Session);
 
             var director = new Person(viewModel.Name, viewModel.LastName)
             {
@@ -56,10 +56,10 @@ namespace Rmdb.Web.Client.Controllers
 
         public IActionResult Update(Guid id)
         {
-            var repository = new DirectorRepository(HttpContext.Session);
+            var repository = new ActorRepository(HttpContext.Session);
 
             var director = repository.Get(id);
-            var viewModel = new DirectorUpdateViewModel
+            var viewModel = new ActorUpdateViewModel
             {
                 Name = director.Name,
                 LastName = director.LastName,
@@ -71,7 +71,7 @@ namespace Rmdb.Web.Client.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(Guid id, DirectorUpdateViewModel viewModel)
+        public IActionResult Update(Guid id, ActorUpdateViewModel viewModel)
         {
 
             if (!TryValidateModel(viewModel))
@@ -79,7 +79,7 @@ namespace Rmdb.Web.Client.Controllers
                 return View(viewModel);
             }
 
-            var repository = new DirectorRepository(HttpContext.Session);
+            var repository = new ActorRepository(HttpContext.Session);
 
             var director = new Person(viewModel.Name, viewModel.LastName)
             {
@@ -92,7 +92,7 @@ namespace Rmdb.Web.Client.Controllers
 
         public IActionResult Delete(Guid id)
         {
-            var repository = new DirectorRepository(HttpContext.Session);
+            var repository = new ActorRepository(HttpContext.Session);
             repository.Delete(id);
 
             return RedirectToAction(nameof(Index));

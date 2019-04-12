@@ -5,15 +5,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rmdb.Web.Client.ViewModels.Movie
+namespace Rmdb.Web.Client.ViewModels.Movies
 {
-    public class MovieCreateViewModel
+    public class MovieUpdateViewModel
     {
         [Required(ErrorMessage = "Verplicht*")]
         [MinLength(2, ErrorMessage = "Minstens 2 characters")]
         [DisplayName("Titel")]
         public string Title { get; set; }
-
 
         [DataType(DataType.MultilineText)]
         [DisplayName("Beschrijving")]

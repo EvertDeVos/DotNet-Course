@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rmdb.Web.Client.ViewModels.Movie
+namespace Rmdb.Web.Client.ViewModels.Movies
 {
     public class MovieViewModel
     {

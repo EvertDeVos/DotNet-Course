@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rmdb.Web.Client.ViewModels.Director
+namespace Rmdb.Web.Client.ViewModels.Actors
 {
-    public class DirectorUpdateViewModel
+    public class ActorUpdateViewModel
     {
         [DisplayName("Voornaam*")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Verplicht")]

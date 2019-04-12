@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Rmdb.Web.Client.ViewModels.Actors;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rmdb.Web.Client.ViewModels.Movie
+namespace Rmdb.Web.Client.ViewModels.Movies
 {
     public class MovieDetailsViewModel
     {
@@ -23,5 +25,13 @@ namespace Rmdb.Web.Client.ViewModels.Movie
         public double? Score { get; set; }
         [DisplayName("Kleuren")]
         public bool Color { get; set; }
+
+        [DisplayName("Acteurs")]
+        public IEnumerable<ActorViewModel> Actors { get; set; }
+
+        public IEnumerable<ActorViewModel> AllActors { get; set; }
+
+        public Guid Selected { get; set; }
+        public IEnumerable<SelectListItem> Items { get; set; }
     }
 }
