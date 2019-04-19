@@ -10,14 +10,12 @@ namespace Rmdb.Domain.Model
         public string Title { get; set; }
         public string Description { get; set; }
 
-        public DateTime ReleaseDate { get; set; }
-        public TimeSpan RunTime { get; set; }
+        public DateTime? ReleaseDate { get; set; }
+        public TimeSpan? RunTime { get; set; }
 
         public double Score { get; set; }
         public bool Color { get; set; }
-
-        public virtual List<Person> Directors { get; set; }
-        public virtual List<Person> Actors { get; set; }
+        public virtual ICollection<MovieActor> Actors { get; set; }
 
         // entity framework constructor
         private Movie()

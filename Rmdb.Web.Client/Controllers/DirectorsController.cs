@@ -16,12 +16,12 @@ namespace Rmdb.Web.Client.Controllers
         {
             var repository = new DirectorRepository(HttpContext.Session);
             var viewModels = repository.Directors
-                .Select(p => new DirectorViewModel
+                .Select(director => new DirectorViewModel
                 {
-                    Id = p.Id,
-                    FullName = $"{p.Name}, {p.LastName}",
-                    Age = p.BirthDate.HasValue
-                        ? p.BirthDate.Value.CalculateAge(p.Deceased).ToString()
+                    Id = director.Id,
+                    FullName = $"{director.Name}, {director.LastName}",
+                    Age = director.BirthDate.HasValue
+                        ? director.BirthDate.Value.CalculateAge(director.Deceased).ToString()
                         : "Onbekend"
                 });
 
@@ -34,20 +34,24 @@ namespace Rmdb.Web.Client.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(DirectorCreateViewModel vm)
+        public IActionResult Create(DirectorCreateViewModel viewModel)
         {
 
-            if (!TryValidateModel(vm))
+            if (!TryValidateModel(viewModel))
             {
-                return View(vm);
+                return View(viewModel);
             }
 
             var repository = new DirectorRepository(HttpContext.Session);
 
-            var person = new Person(vm.Name, vm.LastName) { BirthDate = vm.BirthDate, Deceased = vm.Deceased };
-            repository.Add(person);
+            var director = new Person(viewModel.Name, viewModel.LastName)
+            {
+                BirthDate = viewModel.BirthDate,
+                Deceased = viewModel.Deceased
+            };
+            repository.Add(director);
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Update(Guid id)
@@ -67,23 +71,23 @@ namespace Rmdb.Web.Client.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(Guid id, DirectorUpdateViewModel vm)
+        public IActionResult Update(Guid id, DirectorUpdateViewModel viewModel)
         {
 
-            if (!TryValidateModel(vm))
+            if (!TryValidateModel(viewModel))
             {
-                return View(vm);
+                return View(viewModel);
             }
 
             var repository = new DirectorRepository(HttpContext.Session);
 
-            var person = new Person(vm.Name, vm.LastName)
+            var director = new Person(viewModel.Name, viewModel.LastName)
             {
-                BirthDate = vm.BirthDate,
-                Deceased = vm.Deceased
+                BirthDate = viewModel.BirthDate,
+                Deceased = viewModel.Deceased
             };
-            repository.Update(id, person);
-            return RedirectToAction("Index");
+            repository.Update(id, director);
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Delete(Guid id)
@@ -91,8 +95,7 @@ namespace Rmdb.Web.Client.Controllers
             var repository = new DirectorRepository(HttpContext.Session);
             repository.Delete(id);
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
-
     }
 }
