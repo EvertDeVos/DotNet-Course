@@ -13,8 +13,8 @@ namespace Rmdb.Domain.Model
 
         public ICollection<MovieActor> PlayedMovies { get; set; } = new List<MovieActor>();
 
-        private Person() {
-        }
+        // Private empty constructor for EF
+        private Person() { }
 
         public Person(string name, string lastName)
         {

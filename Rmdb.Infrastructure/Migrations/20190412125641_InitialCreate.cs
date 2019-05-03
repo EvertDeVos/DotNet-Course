@@ -29,8 +29,8 @@ namespace Rmdb.Infrastructure.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    ReleaseDate = table.Column<DateTime>(nullable: false),
-                    RunTime = table.Column<TimeSpan>(nullable: false),
+                    ReleaseDate = table.Column<DateTime>(nullable: true),
+                    RunTime = table.Column<TimeSpan>(nullable: true),
                     Score = table.Column<double>(nullable: false),
                     Color = table.Column<bool>(nullable: false)
                 },
@@ -50,15 +50,15 @@ namespace Rmdb.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_MovieActor", x => new { x.MovieId, x.ActorId });
                     table.ForeignKey(
-                        name: "FK_MovieActor_Movies_ActorId",
-                        column: x => x.ActorId,
-                        principalTable: "Movies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_MovieActor_Actors_ActorId",
                         column: x => x.ActorId,
                         principalTable: "Actors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MovieActor_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -75,10 +75,10 @@ namespace Rmdb.Infrastructure.Migrations
                 name: "MovieActor");
 
             migrationBuilder.DropTable(
-                name: "Movies");
+                name: "Actors");
 
             migrationBuilder.DropTable(
-                name: "Actors");
+                name: "Movies");
         }
     }
 }

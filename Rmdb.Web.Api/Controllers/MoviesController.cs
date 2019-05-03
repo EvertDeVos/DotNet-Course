@@ -2,7 +2,6 @@
 using Rmdb.Domain.Dtos.Movies;
 using Rmdb.Domain.Services;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Rmdb.Web.Api.Controllers
@@ -31,7 +30,7 @@ namespace Rmdb.Web.Api.Controllers
         {
             var movie = await _movieService.GetAsync(id);
 
-            if(movie == null)
+            if (movie == null)
             {
                 return NotFound();
             }
@@ -41,11 +40,53 @@ namespace Rmdb.Web.Api.Controllers
 
         // POST api/movies
         [HttpPost]
-        public async Task<ActionResult> Post ([FromBody] AddMovieDto movie)
+        public async Task<ActionResult> Post([FromBody] AddMovieDto addMovie)
         {
-            var id = await _movieService.AddAsync(movie);
+            var id = await _movieService.AddAsync(addMovie);
 
             return CreatedAtAction("Get", new { Id = id });
+        }
+
+        // PUT api/movies/{id}
+        [HttpPut("{id:Guid}")]
+        public async Task<IActionResult> Put(Guid id, [FromBody] EditMovieDto editMovie)
+        {
+            var movie = await _movieService.UpdateAsync(id, editMovie);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(movie);
+        }
+
+        // DELETE api/movies/{id}
+        [HttpDelete("{id:Guid}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var deleted = await _movieService.DeleteAsync(id);
+
+            if (!deleted)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        // PUT api/movies/{id}/actors
+        [HttpPut("{id:Guid}/actors")]
+        public async Task<IActionResult> AddActor(Guid id, [FromBody]AddActorToMovieDto addActor)
+        {
+            var actor = await _movieService.AddActorToMovieAsync(id, addActor);
+
+            if(actor == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(actor);
         }
     }
 }
