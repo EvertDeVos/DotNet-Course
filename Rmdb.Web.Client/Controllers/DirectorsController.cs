@@ -9,7 +9,7 @@ using Rmdb.Web.Client.Data;
 using Rmdb.Web.Client.ViewModels.Director;
 
 namespace Rmdb.Web.Client.Controllers
-{
+{ 
     public class DirectorsController : Controller
     {
         public IActionResult Index()
