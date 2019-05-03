@@ -75,8 +75,8 @@ namespace Rmdb.Web.Api.Controllers
             return NoContent();
         }
 
-        // PUT api/movies/{id}/actors
-        [HttpPut("{id:Guid}/actors")]
+        // POST api/movies/{id}/actors
+        [HttpPost("{id:Guid}/actors")]
         public async Task<IActionResult> AddActor(Guid id, [FromBody]AddActorToMovieDto addActor)
         {
             var actor = await _movieService.AddActorToMovieAsync(id, addActor);
