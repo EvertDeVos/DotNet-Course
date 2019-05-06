@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Rmdb.Domain.Model;
+using Rmdb.Web.Client.Data.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rmdb.Web.Client.Data
+namespace Rmdb.Web.Client.Data.SessionStorage
 {
     /* this repository is only for demo purposes */
-    public class MovieRepository
+    public class MovieSessionStore : IMovieService
     {
 
         private const string Key = "Movies";
@@ -17,33 +18,32 @@ namespace Rmdb.Web.Client.Data
         private readonly ISession _sessionStorage;
         private List<Movie> _movies;
 
-        public MovieRepository(ISession session)
+        public MovieSessionStore(IHttpContextAccessor contextAccessor)
         {
-            _sessionStorage = session;
+            _sessionStorage = contextAccessor.HttpContext.Session;
             Init();
         }
 
-        public IEnumerable<Movie> Movies
+        public async Task<IEnumerable<Movie>> GetAll()
         {
-            get
-            {
-                return _movies;
-            }
+            return _movies;
         }
 
-        public Movie Get(Guid id)
+        public async Task<Movie> Get(Guid id)
         {
             return _movies.FirstOrDefault(m => m.Id == id);
         }
 
-        public void Create(Movie movie)
+        public async Task<Movie> Create(Movie movie)
         {
             movie.Id = Guid.NewGuid();
             _movies.Add(movie);
             Save();
+
+            return movie;
         }
 
-        public void Update(Guid id, Movie movie)
+        public async Task<Movie> Update(Guid id, Movie movie)
         {
             var oldVersion = _movies.First(m => m.Id == id);
             oldVersion.Title = movie.Title;
@@ -53,9 +53,11 @@ namespace Rmdb.Web.Client.Data
             oldVersion.Score = movie.Score;
             oldVersion.Actors = movie.Actors;
             Save();
+
+            return movie;
         }
 
-        public void Delete(Guid id)
+        public async Task Delete(Guid id)
         {
             var movie = _movies.FirstOrDefault(m => m.Id == id);
             if (movie != null)
@@ -95,7 +97,7 @@ namespace Rmdb.Web.Client.Data
             _movies = JsonConvert.DeserializeObject<Movie[]>(content).ToList();
         }
 
-        public void Save()
+        public async Task Save()
         {
             var content = JsonConvert.SerializeObject(_movies.ToArray());
             _sessionStorage.SetString(Key, content);

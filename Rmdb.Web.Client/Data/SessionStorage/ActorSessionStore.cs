@@ -2,48 +2,48 @@
 using Newtonsoft.Json;
 using Rmdb.Domain.Model;
 using Rmdb.Domain.Model.Extensions;
+using Rmdb.Web.Client.Data.Contracts;
 using Rmdb.Web.Client.ViewModels.Actors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rmdb.Web.Client.Data
+namespace Rmdb.Web.Client.Data.SessionStorage
 {
     /* this repository is only for demo purposes */
-    public class ActorRepository
+    public class ActorSessionStore : IActorService
     {
         private const string Key = "Actors";
 
         private readonly ISession _sessionStorage;
         private List<Person> _actors;
 
-        public IEnumerable<Person> Actors
-        {
-            get
-            {
-                return _actors;
-            }
-        }
 
-        public ActorRepository(ISession sessionStorage)
+
+        public ActorSessionStore(IHttpContextAccessor contextAccessor)
         {
-            _sessionStorage = sessionStorage;
+            _sessionStorage = contextAccessor.HttpContext.Session;
             Init();
         }
 
-        public Person Get(Guid id)
+        public async Task<IEnumerable<Person>> GetAll()
+        {
+            return _actors;
+        }
+
+        public async Task<Person> Get(Guid id)
         {
             return _actors.FirstOrDefault(p => p.Id == id);
         }
 
-        public void Add(Person person)
+        public async Task Add(Person person)
         {
             person.Id = Guid.NewGuid();
             _actors.Add(person);
             Save();
         }
-        public void Update(Guid id, Person actor)
+        public async Task<Person> Update(Guid id, Person actor)
         {
             var oldVersion = _actors.First(p => p.Id == id);
             oldVersion.Name = actor.Name;
@@ -53,9 +53,11 @@ namespace Rmdb.Web.Client.Data
             oldVersion.PlayedMovies = actor.PlayedMovies;
 
             Save();
+
+            return oldVersion;
         }
 
-        public void Delete(Guid id)
+        public async Task Delete(Guid id)
         {
             var actor = _actors.FirstOrDefault(p => p.Id == id);
             if (actor != null)
@@ -85,7 +87,7 @@ namespace Rmdb.Web.Client.Data
             _actors = JsonConvert.DeserializeObject<Person[]>(content).ToList();
         }
 
-        public void Save()
+        public async Task Save()
         {
             var content = JsonConvert.SerializeObject(_actors.ToArray());
             _sessionStorage.SetString(Key, content);

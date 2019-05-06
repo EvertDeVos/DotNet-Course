@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Rmdb.Domain.Model;
-using Rmdb.Web.Client.Data;
+using Rmdb.Web.Client.Data.Contracts;
+using Rmdb.Web.Client.Data.SessionStorage;
 using Rmdb.Web.Client.ViewModels.Actors;
 using Rmdb.Web.Client.ViewModels.Movies;
 using Rmdb.Web.Client.ViewModels.Shared;
@@ -14,34 +15,40 @@ namespace Rmdb.Web.Client.Controllers
 {
     public class MoviesController : Controller
     {
+        private readonly IMovieService _movieRepository;
+        private readonly IActorService _actorRepository;
 
-        public IActionResult Index()
+        public MoviesController(IMovieService movieRepository, IActorService actorRepository)
         {
-            var repository = new MovieRepository(HttpContext.Session);
-            var viewModels = repository.Movies.Select(movie => new MovieViewModel
-            {
-                Id = movie.Id,
-                Title = movie.Title,
-                Score = movie.Score,
-                ReleaseDate = movie.ReleaseDate.HasValue
+            _movieRepository = movieRepository;
+            _actorRepository = actorRepository;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var viewModels = (await _movieRepository.GetAll())
+                .Select(movie => new MovieViewModel
+                {
+                    Id = movie.Id,
+                    Title = movie.Title,
+                    Score = movie.Score,
+                    ReleaseDate = movie.ReleaseDate.HasValue
                     ? movie.ReleaseDate.Value.ToShortDateString()
                     : "Onbekend"
-            });
+                });
 
             return View(viewModels);
         }
 
-        public IActionResult Details(Guid id)
+        public async Task<IActionResult> Details(Guid id)
         {
-            var movieRepository = new MovieRepository(HttpContext.Session);
-            var movie = movieRepository.Get(id);
+            var movie = await _movieRepository.Get(id);
             if (movie == null)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            var actorRepository = new ActorRepository(HttpContext.Session);
-            var actors = actorRepository.Actors;
+            var actors = await _actorRepository.GetAll();
 
             var viewModel = new MovieDetailsViewModel
             {
@@ -61,18 +68,16 @@ namespace Rmdb.Web.Client.Controllers
         }
 
         [HttpPost]
-        public IActionResult Details(Guid id, SelectionViewModel selection)
+        public async Task<IActionResult> Details(Guid id, SelectionViewModel selection)
         {
-            var movieRepository = new MovieRepository(HttpContext.Session);
-            var movie = movieRepository.Get(id);
+            var movie = await _movieRepository.Get(id);
 
             if (movie == null)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            var actorRepository = new ActorRepository(HttpContext.Session);
-            var actor = actorRepository.Get(selection.Selected);
+            var actor = await _actorRepository.Get(selection.Selected);
 
             if (actor == null)
             {
@@ -83,19 +88,19 @@ namespace Rmdb.Web.Client.Controllers
             movie.Actors.Add(relation);
             actor.PlayedMovies.Add(relation);
 
-            actorRepository.Save();
-            movieRepository.Save();
+            await _actorRepository.Save();
+            await _movieRepository.Save();
 
             return RedirectToAction(nameof(Details));
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(MovieCreateViewModel viewModel)
+        public async Task<IActionResult> Create(MovieCreateViewModel viewModel)
         {
 
             if (!TryValidateModel(viewModel))
@@ -103,8 +108,7 @@ namespace Rmdb.Web.Client.Controllers
                 return View(viewModel);
             }
 
-            var repository = new MovieRepository(HttpContext.Session);
-            repository.Create(new Movie(viewModel.Title)
+            await _movieRepository.Create(new Movie(viewModel.Title)
             {
                 Description = viewModel.Description,
                 ReleaseDate = viewModel.ReleaseDate,
@@ -117,10 +121,9 @@ namespace Rmdb.Web.Client.Controllers
 
         }
 
-        public IActionResult Update(Guid id)
+        public async Task<IActionResult> Update(Guid id)
         {
-            var repository = new MovieRepository(HttpContext.Session);
-            var movie = repository.Get(id);
+            var movie = await _movieRepository.Get(id);
             if (movie == null)
             {
                 RedirectToAction(nameof(Create));
@@ -140,15 +143,14 @@ namespace Rmdb.Web.Client.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(Guid id, MovieUpdateViewModel viewModel)
+        public async Task<IActionResult> Update(Guid id, MovieUpdateViewModel viewModel)
         {
             if (!TryValidateModel(viewModel))
             {
                 return View(viewModel);
             }
 
-            var repository = new MovieRepository(HttpContext.Session);
-            repository.Update(id, new Movie(viewModel.Title)
+            await _movieRepository.Update(id, new Movie(viewModel.Title)
             {
                 Description = viewModel.Description,
                 ReleaseDate = viewModel.ReleaseDate,
@@ -160,17 +162,16 @@ namespace Rmdb.Web.Client.Controllers
             return RedirectToAction(nameof(Details));
         }
 
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
 
-            var repository = new MovieRepository(HttpContext.Session);
-            var movie = repository.Get(id);
+            var movie = _movieRepository.Get(id);
             if (movie == null)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            repository.Delete(id);
+            await _movieRepository.Delete(id);
             return RedirectToAction(nameof(Index));
         }
     }
