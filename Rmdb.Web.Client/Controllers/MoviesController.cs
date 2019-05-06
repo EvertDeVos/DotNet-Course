@@ -14,18 +14,18 @@ namespace Rmdb.Web.Client.Controllers
 {
     public class MoviesController : Controller
     {
-        private readonly IMovieService _movieRepository;
-        private readonly IActorService _actorRepository;
+        private readonly IMovieService _movieService;
+        private readonly IActorService _actorService;
 
         public MoviesController(IMovieService movieRepository, IActorService actorRepository)
         {
-            _movieRepository = movieRepository;
-            _actorRepository = actorRepository;
+            _movieService = movieRepository;
+            _actorService = actorRepository;
         }
 
         public async Task<IActionResult> Index()
         {
-            var viewModels = (await _movieRepository.GetAll())
+            var viewModels = (await _movieService.GetAll())
                 .Select(movie => new MovieViewModel
                 {
                     Id = movie.Id,
@@ -41,13 +41,13 @@ namespace Rmdb.Web.Client.Controllers
 
         public async Task<IActionResult> Details(Guid id)
         {
-            var movie = await _movieRepository.Get(id);
+            var movie = await _movieService.Get(id);
             if (movie == null)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            var actors = await _actorRepository.GetAll();
+            var actors = await _actorService.GetAll();
             var viewModel = new MovieDetailsViewModel
             {
                 Title = movie.Title,
@@ -69,7 +69,7 @@ namespace Rmdb.Web.Client.Controllers
         [HttpPost]
         public async Task<IActionResult> Details(Guid id, SelectionViewModel selection)
         {
-            if (await _movieRepository.AddActor(id, selection.Selected) == null)
+            if (await _movieService.AddActor(id, selection.Selected) == null)
             {
                 return RedirectToAction(nameof(Details), new { Id = id });
             }
@@ -91,7 +91,7 @@ namespace Rmdb.Web.Client.Controllers
                 return View(viewModel);
             }
 
-            await _movieRepository.Create(new Movie(viewModel.Title)
+            await _movieService.Create(new Movie(viewModel.Title)
             {
                 Description = viewModel.Description,
                 ReleaseDate = viewModel.ReleaseDate,
@@ -106,7 +106,7 @@ namespace Rmdb.Web.Client.Controllers
 
         public async Task<IActionResult> Update(Guid id)
         {
-            var movie = await _movieRepository.Get(id);
+            var movie = await _movieService.Get(id);
             if (movie == null)
             {
                 RedirectToAction(nameof(Create));
@@ -133,7 +133,7 @@ namespace Rmdb.Web.Client.Controllers
                 return View(viewModel);
             }
 
-            await _movieRepository.Update(id, new Movie(viewModel.Title)
+            await _movieService.Update(id, new Movie(viewModel.Title)
             {
                 Description = viewModel.Description,
                 ReleaseDate = viewModel.ReleaseDate,
@@ -148,13 +148,13 @@ namespace Rmdb.Web.Client.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
 
-            var movie = _movieRepository.Get(id);
+            var movie = _movieService.Get(id);
             if (movie == null)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            await _movieRepository.Delete(id);
+            await _movieService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
     }
