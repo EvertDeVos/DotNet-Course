@@ -25,9 +25,9 @@ namespace Rmdb.Infrastructure.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<DateTime>("ReleaseDate");
+                    b.Property<DateTime?>("ReleaseDate");
 
-                    b.Property<TimeSpan>("RunTime");
+                    b.Property<TimeSpan?>("RunTime");
 
                     b.Property<double>("Score");
 
@@ -71,14 +71,14 @@ namespace Rmdb.Infrastructure.Migrations
 
             modelBuilder.Entity("Rmdb.Domain.Model.MovieActor", b =>
                 {
-                    b.HasOne("Rmdb.Domain.Model.Movie", "Movie")
-                        .WithMany("Actors")
-                        .HasForeignKey("ActorId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("Rmdb.Domain.Model.Person", "Actor")
                         .WithMany("PlayedMovies")
                         .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Rmdb.Domain.Model.Movie", "Movie")
+                        .WithMany("Actors")
+                        .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

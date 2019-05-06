@@ -4,7 +4,10 @@ namespace Rmdb.Domain.Dtos.Movies
 {
     public class AddMovieDto
     {
-        [MinLength(1)]
+        [Required, MinLength(1)]
         public string Title { get; set; }
+
+        [MinLength(1)]
+        public string Description { get; set; }
     }
 }
