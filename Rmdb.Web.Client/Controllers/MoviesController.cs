@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Rmdb.Domain.Model;
 using Rmdb.Web.Client.Data.Contracts;
-using Rmdb.Web.Client.Data.SessionStorage;
 using Rmdb.Web.Client.ViewModels.Actors;
 using Rmdb.Web.Client.ViewModels.Movies;
 using Rmdb.Web.Client.ViewModels.Shared;
@@ -49,7 +48,6 @@ namespace Rmdb.Web.Client.Controllers
             }
 
             var actors = await _actorRepository.GetAll();
-
             var viewModel = new MovieDetailsViewModel
             {
                 Title = movie.Title,
@@ -58,10 +56,11 @@ namespace Rmdb.Web.Client.Controllers
                 RunTime = movie.RunTime,
                 Color = movie.Color,
                 Score = movie.Score,
-                Actors = actors
-                    .Where(a => movie.Actors.Any(rel => rel.ActorId == a.Id))
+                Actors = movie.Actors
+                    .Select(ma => ma.Actor)
                     .Select(a => new ActorViewModel { FullName = $"{a.Name} {a.LastName}" }),
-                Items = actors.Select(actor => new SelectListItem($"{ actor.Name} {actor.LastName}", actor.Id.ToString()))
+                Items = actors
+                    .Select(actor => new SelectListItem($"{ actor.Name} {actor.LastName}", actor.Id.ToString()))
             };
 
             return View(viewModel);
@@ -70,26 +69,10 @@ namespace Rmdb.Web.Client.Controllers
         [HttpPost]
         public async Task<IActionResult> Details(Guid id, SelectionViewModel selection)
         {
-            var movie = await _movieRepository.Get(id);
-
-            if (movie == null)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            var actor = await _actorRepository.Get(selection.Selected);
-
-            if (actor == null)
+            if (await _movieRepository.AddActor(id, selection.Selected) == null)
             {
                 return RedirectToAction(nameof(Details), new { Id = id });
             }
-
-            var relation = new MovieActor(movie.Id, actor.Id);
-            movie.Actors.Add(relation);
-            actor.PlayedMovies.Add(relation);
-
-            await _actorRepository.Save();
-            await _movieRepository.Save();
 
             return RedirectToAction(nameof(Details));
         }

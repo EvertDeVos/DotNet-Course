@@ -12,6 +12,7 @@ namespace Rmdb.Web.Client.Data.SessionStorage
     /* this repository is only for demo purposes */
     public class MovieSessionStore : IMovieService
     {
+        private ActorSessionStore _actorStore;
 
         private const string Key = "Movies";
 
@@ -21,6 +22,7 @@ namespace Rmdb.Web.Client.Data.SessionStorage
         public MovieSessionStore(IHttpContextAccessor contextAccessor)
         {
             _sessionStorage = contextAccessor.HttpContext.Session;
+            _actorStore = new ActorSessionStore(contextAccessor);
             Init();
         }
 
@@ -31,7 +33,15 @@ namespace Rmdb.Web.Client.Data.SessionStorage
 
         public async Task<Movie> Get(Guid id)
         {
-            return _movies.FirstOrDefault(m => m.Id == id);
+            var movie = _movies.FirstOrDefault(m => m.Id == id);
+
+            if (movie != null) {
+                foreach (var movieActor in movie.Actors) {
+                    movieActor.Actor = await _actorStore.Get(movieActor.ActorId); 
+                }
+            }
+
+            return movie;
         }
 
         public async Task<Movie> Create(Movie movie)
@@ -55,6 +65,26 @@ namespace Rmdb.Web.Client.Data.SessionStorage
             Save();
 
             return movie;
+        }
+
+        public async Task<MovieActor> AddActor(Guid movieId, Guid actorId)
+        {
+            var movie = await Get(movieId);
+            var actor = await _actorStore.Get(actorId);
+
+            if (movie == null || actor == null) {
+                return null;
+            }
+
+            var relation = new MovieActor(movieId, actorId);
+
+            actor.PlayedMovies.Add(relation);
+            movie.Actors.Add(relation);
+
+            await Save();
+            await _actorStore.Save();
+
+            return relation;
         }
 
         public async Task Delete(Guid id)
@@ -99,8 +129,20 @@ namespace Rmdb.Web.Client.Data.SessionStorage
 
         public async Task Save()
         {
-            var content = JsonConvert.SerializeObject(_movies.ToArray());
+            // uncouple movieactors to prevent json infinite loop
+            var movies = _movies.Select(m =>
+            {
+                m.Actors = m.Actors
+                    .Select(ma => new MovieActor(ma.MovieId, ma.ActorId))
+                    .ToList();
+
+                return m;
+            });
+
+            var content = JsonConvert.SerializeObject(movies);
             _sessionStorage.SetString(Key, content);
         }
+
+       
     }
 }

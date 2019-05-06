@@ -89,7 +89,17 @@ namespace Rmdb.Web.Client.Data.SessionStorage
 
         public async Task Save()
         {
-            var content = JsonConvert.SerializeObject(_actors.ToArray());
+            // decouple movieActors
+            var actors = _actors.Select(a =>
+            {
+                a.PlayedMovies = a.PlayedMovies
+                    .Select(ma => new MovieActor(ma.MovieId, ma.ActorId))
+                    .ToList();
+
+                return a;
+            });
+            
+            var content = JsonConvert.SerializeObject(actors);
             _sessionStorage.SetString(Key, content);
         }
     }

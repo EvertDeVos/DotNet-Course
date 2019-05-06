@@ -16,6 +16,8 @@ namespace Rmdb.Web.Client.Data.Contracts
 
         Task<Movie> Update(Guid id, Movie movie);
 
+        Task<MovieActor> AddActor(Guid movieId, Guid actorId);
+
         Task Delete(Guid id);
 
         Task Save();
