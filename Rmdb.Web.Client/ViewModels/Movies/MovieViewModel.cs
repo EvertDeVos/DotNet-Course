@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rmdb.Web.Client.ViewModels.Shared;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -17,9 +18,8 @@ namespace Rmdb.Web.Client.ViewModels.Movies
         [DisplayName("Score")]
         public double Score { get; set; }
 
-       
-        [DisplayName("Premiere")]
-        public string ReleaseDate { get; set; }
 
+        [DisplayName("Premiere")]
+        public DateViewModel ReleaseDate { get; set; }
     }
 }

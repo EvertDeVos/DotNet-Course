@@ -1,4 +1,4 @@
-﻿using Rmdb.Domain.Model;
+﻿using Rmdb.Web.Client.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +8,18 @@ namespace Rmdb.Web.Client.Data.Contracts
 {
     public interface IMovieService
     {
-        Task<IEnumerable<Movie>> GetAll();
+        Task<IEnumerable<Movie>> GetAllAsync();
 
-        Task<Movie> Get(Guid id);
+        Task<Movie> GetAsync(Guid id);
 
-        Task<Movie> Create(Movie movie);
+        Task<Movie> CreateAsync(Movie movie);
 
-        Task<Movie> Update(Guid id, Movie movie);
+        Task<Movie> UpdateAsync(Guid id, Movie movie);
 
-        Task<MovieActor> AddActor(Guid movieId, Guid actorId);
+        Task<MovieActor> AddActorAsync(Guid movieId, Guid actorId);
 
-        Task Delete(Guid id);
+        Task DeleteAsync(Guid id);
 
-        Task Save();
+        void Save();
     }
 }

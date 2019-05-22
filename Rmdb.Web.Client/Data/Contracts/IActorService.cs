@@ -1,4 +1,4 @@
-﻿using Rmdb.Domain.Model;
+﻿using Rmdb.Web.Client.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +9,16 @@ namespace Rmdb.Web.Client.Data.Contracts
     public interface IActorService
     {
 
-        Task<IEnumerable<Person>> GetAll();
+        Task<IEnumerable<Actor>> GetAllAsync();
 
-        Task<Person> Get(Guid id);
+        Task<Actor> GetAsync(Guid id);
 
-        Task Add(Person person);
+        Task AddAsync(Actor person);
 
-        Task<Person> Update(Guid id, Person actor);
+        Task<Actor> UpdateAsync(Guid id, Actor actor);
 
-        Task Delete(Guid id);
+        Task DeleteAsync(Guid id);
 
-        Task Save();
+        void Save();
     }
 }

@@ -7,6 +7,7 @@
 
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
@@ -14,12 +15,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\Rmdb.Domain.Model\Rmdb.Domain.Model.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="ViewComponents\" />
+    <Folder Include="Views\Shared\Components\" />
   </ItemGroup>
 </Project>
  

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rmdb.Web.Client.ViewModels.Shared;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -19,11 +20,8 @@ namespace Rmdb.Web.Client.ViewModels.Movies
         [MaxLength(512, ErrorMessage = "Beschrijving is te lang (max: 512)")]
         public string Description { get; set; }
 
-
-        [DataType(DataType.Date)]
         [DisplayName("Premiere")]
-        [DisplayFormat(DataFormatString = "dd/MM/yyyy", ApplyFormatInEditMode = true)]
-        public DateTime? ReleaseDate { get; set; }
+        public DateViewModel ReleaseDate { get; set; }
 
         [DataType(DataType.Time)]
         [DisplayName("Duur")]

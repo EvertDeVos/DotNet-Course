@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using Rmdb.Domain.Model;
 using Rmdb.Web.Client.Data.Contracts;
+using Rmdb.Web.Client.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,25 +26,25 @@ namespace Rmdb.Web.Client.Data.SessionStorage
             Init();
         }
 
-        public async Task<IEnumerable<Movie>> GetAll()
+        public async Task<IEnumerable<Movie>> GetAllAsync()
         {
             return _movies;
         }
 
-        public async Task<Movie> Get(Guid id)
+        public async Task<Movie> GetAsync(Guid id)
         {
             var movie = _movies.FirstOrDefault(m => m.Id == id);
 
             if (movie != null) {
                 foreach (var movieActor in movie.Actors) {
-                    movieActor.Actor = await _actorStore.Get(movieActor.ActorId); 
+                    movieActor.Actor = await _actorStore.GetAsync(movieActor.ActorId); 
                 }
             }
 
             return movie;
         }
 
-        public async Task<Movie> Create(Movie movie)
+        public async Task<Movie> CreateAsync(Movie movie)
         {
             movie.Id = Guid.NewGuid();
             _movies.Add(movie);
@@ -53,7 +53,7 @@ namespace Rmdb.Web.Client.Data.SessionStorage
             return movie;
         }
 
-        public async Task<Movie> Update(Guid id, Movie movie)
+        public async Task<Movie> UpdateAsync(Guid id, Movie movie)
         {
             var oldVersion = _movies.First(m => m.Id == id);
             oldVersion.Title = movie.Title;
@@ -61,16 +61,17 @@ namespace Rmdb.Web.Client.Data.SessionStorage
             oldVersion.ReleaseDate = movie.ReleaseDate;
             oldVersion.RunTime = movie.RunTime;
             oldVersion.Score = movie.Score;
+            oldVersion.Color = movie.Color;
             oldVersion.Actors = movie.Actors;
             Save();
 
             return movie;
         }
 
-        public async Task<MovieActor> AddActor(Guid movieId, Guid actorId)
+        public async Task<MovieActor> AddActorAsync(Guid movieId, Guid actorId)
         {
-            var movie = await Get(movieId);
-            var actor = await _actorStore.Get(actorId);
+            var movie = await GetAsync(movieId);
+            var actor = await _actorStore.GetAsync(actorId);
 
             if (movie == null || actor == null) {
                 return null;
@@ -81,13 +82,13 @@ namespace Rmdb.Web.Client.Data.SessionStorage
             actor.PlayedMovies.Add(relation);
             movie.Actors.Add(relation);
 
-            await Save();
-            await _actorStore.Save();
+            Save();
+            _actorStore.Save();
 
             return relation;
         }
 
-        public async Task Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
             var movie = _movies.FirstOrDefault(m => m.Id == id);
             if (movie != null)
@@ -127,7 +128,7 @@ namespace Rmdb.Web.Client.Data.SessionStorage
             _movies = JsonConvert.DeserializeObject<Movie[]>(content).ToList();
         }
 
-        public async Task Save()
+        public void Save()
         {
             // uncouple movieactors to prevent json infinite loop
             var movies = _movies.Select(m =>

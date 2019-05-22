@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Rmdb.Web.Client.ViewModels.Actors;
+using Rmdb.Web.Client.ViewModels.Shared;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +18,8 @@ namespace Rmdb.Web.Client.ViewModels.Movies
         public string Description { get; set; }
 
         [DisplayName("Premiere")]
-        public DateTime? ReleaseDate { get; set; }
+        public DateViewModel ReleaseDate { get; set; }
+
         [DisplayName("Duur")]
         public TimeSpan? RunTime { get; set; }
 

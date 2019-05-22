@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Rmdb.Web.Client.ViewModels.Shared;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,9 +19,9 @@ namespace Rmdb.Web.Client.ViewModels.Actors
         public string LastName { get; set; }
 
         [DisplayName("Geboortedatum")]
-        public DateTime BirthDate { get; set; }
+        public DateViewModel BirthDate { get; set; }
 
         [DisplayName("Sterftedatum")]
-        public DateTime Deceased { get; set; }
+        public DateViewModel Deceased { get; set; }
     }
 }

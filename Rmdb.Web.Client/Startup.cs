@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rmdb.Web.Client.Data.Contracts;
 using Rmdb.Web.Client.Data.SessionStorage;
+using Rmdb.Web.Client.ViewModels.Actors;
+using Rmdb.Web.Client.ViewModels.Movies;
 
 namespace Rmdb.Web.Client
 {
@@ -28,6 +31,11 @@ namespace Rmdb.Web.Client
         public void ConfigureServices(IServiceCollection services)
         {
 
+            Mapper.Initialize(cfg =>
+            {
+                cfg.AddProfile<ActorMapperProfile>();
+                cfg.AddProfile<MovieMapperProfile>();
+            });
 
             // added for demo purposes
             services.AddDistributedMemoryCache();

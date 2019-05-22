@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using Rmdb.Domain.Model;
-using Rmdb.Domain.Model.Extensions;
 using Rmdb.Web.Client.Data.Contracts;
+using Rmdb.Web.Client.Model;
 using Rmdb.Web.Client.ViewModels.Actors;
 using System;
 using System.Collections.Generic;
@@ -17,9 +16,7 @@ namespace Rmdb.Web.Client.Data.SessionStorage
         private const string Key = "Actors";
 
         private readonly ISession _sessionStorage;
-        private List<Person> _actors;
-
-
+        private List<Actor> _actors;
 
         public ActorSessionStore(IHttpContextAccessor contextAccessor)
         {
@@ -27,23 +24,24 @@ namespace Rmdb.Web.Client.Data.SessionStorage
             Init();
         }
 
-        public async Task<IEnumerable<Person>> GetAll()
+        public async Task<IEnumerable<Actor>> GetAllAsync()
         {
             return _actors;
         }
 
-        public async Task<Person> Get(Guid id)
+        public async Task<Actor> GetAsync(Guid id)
         {
             return _actors.FirstOrDefault(p => p.Id == id);
         }
 
-        public async Task Add(Person person)
+        public async Task AddAsync(Actor person)
         {
             person.Id = Guid.NewGuid();
             _actors.Add(person);
             Save();
         }
-        public async Task<Person> Update(Guid id, Person actor)
+
+        public async Task<Actor> UpdateAsync(Guid id, Actor actor)
         {
             var oldVersion = _actors.First(p => p.Id == id);
             oldVersion.Name = actor.Name;
@@ -57,7 +55,7 @@ namespace Rmdb.Web.Client.Data.SessionStorage
             return oldVersion;
         }
 
-        public async Task Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
             var actor = _actors.FirstOrDefault(p => p.Id == id);
             if (actor != null)
@@ -73,21 +71,21 @@ namespace Rmdb.Web.Client.Data.SessionStorage
             var content = _sessionStorage.GetString(Key);
             if (string.IsNullOrEmpty(content))
             {
-                _actors = new List<Person> {
-                    new Person("Christopher", "Nolan") { Id=Guid.NewGuid(), BirthDate= new DateTime(1970,7,30)},
-                    new Person("Steven", "Spielberg") { Id=Guid.NewGuid(), BirthDate= new DateTime(1948,12,18)},
-                    new Person("Martin", "Scorsese") { Id=Guid.NewGuid(), BirthDate= new DateTime(1942,10,17)},
-                    new Person("Alfred", "Hitchcock") { Id=Guid.NewGuid(), BirthDate= new DateTime(1899,8,13), Deceased = new DateTime(1980,4,29)},
-                    new Person("Hayao", "Miyazaki") { Id=Guid.NewGuid(), BirthDate= new DateTime(1941,1,5)},
+                _actors = new List<Actor> {
+                    new Actor("Christopher", "Nolan") { Id=Guid.NewGuid(), BirthDate= new DateTime(1970,7,30)},
+                    new Actor("Steven", "Spielberg") { Id=Guid.NewGuid(), BirthDate= new DateTime(1948,12,18)},
+                    new Actor("Martin", "Scorsese") { Id=Guid.NewGuid(), BirthDate= new DateTime(1942,10,17)},
+                    new Actor("Alfred", "Hitchcock") { Id=Guid.NewGuid(), BirthDate= new DateTime(1899,8,13), Deceased = new DateTime(1980,4,29)},
+                    new Actor("Hayao", "Miyazaki") { Id=Guid.NewGuid(), BirthDate= new DateTime(1941,1,5)},
                 };
                 Save();
                 return;
             }
 
-            _actors = JsonConvert.DeserializeObject<Person[]>(content).ToList();
+            _actors = JsonConvert.DeserializeObject<Actor[]>(content).ToList();
         }
 
-        public async Task Save()
+        public void Save()
         {
             // decouple movieActors
             var actors = _actors.Select(a =>

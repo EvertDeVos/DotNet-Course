@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Rmdb.Domain.Model;
-using Rmdb.Domain.Model.Extensions;
 using Rmdb.Web.Client.Data;
 using Rmdb.Web.Client.Data.Contracts;
+using Rmdb.Web.Client.Model;
 using Rmdb.Web.Client.ViewModels.Actors;
 
 namespace Rmdb.Web.Client.Controllers
@@ -22,15 +22,8 @@ namespace Rmdb.Web.Client.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var viewModels = (await _actorService.GetAll())
-                .Select(actor => new ActorViewModel
-                {
-                    Id = actor.Id,
-                    FullName = $"{actor.Name}, {actor.LastName}",
-                    Age = actor.BirthDate.HasValue
-                        ? actor.BirthDate.Value.CalculateAge(actor.Deceased).ToString()
-                        : "Onbekend"
-                });
+            var actors = (await _actorService.GetAllAsync());
+            var viewModels = Mapper.Map<IEnumerable<ActorViewModel>>(actors);
 
             return View(viewModels);
         }
@@ -49,26 +42,16 @@ namespace Rmdb.Web.Client.Controllers
                 return View(viewModel);
             }
 
-            var actor = new Person(viewModel.Name, viewModel.LastName)
-            {
-                BirthDate = viewModel.BirthDate,
-                Deceased = viewModel.Deceased
-            };
-            await _actorService.Add(actor);
+            var actor = Mapper.Map<Actor>(viewModel);
+            await _actorService.AddAsync(actor);
 
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Update(Guid id)
         {
-            var actor = await _actorService.Get(id);
-            var viewModel = new ActorUpdateViewModel
-            {
-                Name = actor.Name,
-                LastName = actor.LastName,
-                BirthDate = actor.BirthDate ?? default,
-                Deceased = actor.Deceased ?? default,
-            };
+            var actor = await _actorService.GetAsync(id);
+            var viewModel = Mapper.Map<ActorUpdateViewModel>(actor);
 
             return View(viewModel);
         }
@@ -81,19 +64,16 @@ namespace Rmdb.Web.Client.Controllers
             {
                 return View(viewModel);
             }
-            
-            var actor = new Person(viewModel.Name, viewModel.LastName)
-            {
-                BirthDate = viewModel.BirthDate,
-                Deceased = viewModel.Deceased
-            };
-            await _actorService.Update(id, actor);
+
+            var actor = Mapper.Map<Actor>(viewModel);
+
+            await _actorService.UpdateAsync(id, actor);
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Delete(Guid id)
         {
-            await _actorService.Delete(id);
+            await _actorService.DeleteAsync(id);
 
             return RedirectToAction(nameof(Index));
         }
