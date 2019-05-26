@@ -48,25 +48,15 @@
         </dd>
     </dl>
 </div>
-<div>
-    @Html.ActionLink("Aanpassen", "Update", new { id = Model.Id }) |
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 <form asp-action="AddActor">
     <select asp-for="Selected" asp-items="Model.Items"></select> <input type="submit" value="Save" class="btn btn-primary" />
 </form>
 
-<table class="table">    
-    <tbody>
-        @foreach (var item in Model.Actors)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+<vc:actor-list actors="@Model.Actors"></vc:actor-list>
 
+<div>
+    @Html.ActionLink("Aanpassen", "Update", new { id = Model.Id }) |
+    <a asp-action="Index">Back to List</a>
+</div>

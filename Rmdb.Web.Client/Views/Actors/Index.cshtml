@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Acteurs";
-    var index = 1;
+
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -10,42 +10,5 @@
 <p>
     <a asp-action="Create">Acteur toevoegen</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                #
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FullName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Age)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @index
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Age)
-                </td>
-                <td>
-                    @Html.ActionLink("Bijwerken", "Update", new {  id=item.Id  }) |
-                    @*@Html.ActionLink("Details", "Details", new { id=item.PrimaryKey }) | *@
-                    @Html.ActionLink("Verwijderen", "Delete", new { id=item.Id })
-                </td>
-            </tr>
 
-            index++;
-        }
-    </tbody>
-</table>
+<vc:actor-list actors="@Model"></vc:actor-list>

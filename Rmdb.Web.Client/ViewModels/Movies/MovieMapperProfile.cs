@@ -14,10 +14,10 @@ namespace Rmdb.Web.Client.ViewModels.Movies
             CreateMap<MovieCreateViewModel, Movie>();
             CreateMap<MovieUpdateViewModel, Movie>();
             CreateMap<Movie, MovieViewModel>();
-            CreateMap<Movie, MovieDetailsViewModel>();
+            CreateMap<Movie, MovieDetailsViewModel>()
+                .ForMember(vm => vm.Actors, options => options.MapFrom(model => model.Actors.Select(ma => ma.Actor)));
             CreateMap<Movie, MovieUpdateViewModel>()
                 .ForMember(vm => vm.ReleaseDate, options => options.MapFrom(model => model.ReleaseDate.HasValue ? model.ReleaseDate : DateTime.Now));
-
         }
     }
 }

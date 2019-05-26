@@ -40,9 +40,8 @@ namespace Rmdb.Web.Client.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var actors = await _actorService.GetAllAsync();
             var viewModel = Mapper.Map<MovieDetailsViewModel>(movie);
-
+            var actors = await _actorService.GetAllAsync();
             viewModel.Items = actors
                 .Select(actor => new SelectListItem($"{ actor.Name} {actor.LastName}", actor.Id.ToString()));
 
