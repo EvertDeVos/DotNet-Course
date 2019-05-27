@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Rmdb.Web.Client.Data.Contracts;
+using Rmdb.Web.Client.Data.SessionStorage;
+using Rmdb.Web.Client.ViewModels.Actors;
+using Rmdb.Web.Client.ViewModels.Movies;
 
 namespace Rmdb.Web.Client
 {
@@ -24,7 +29,13 @@ namespace Rmdb.Web.Client
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        { 
+        {
+
+            Mapper.Initialize(cfg =>
+            {
+                cfg.AddProfile<ActorMapperProfile>();
+                cfg.AddProfile<MovieMapperProfile>();
+            });
 
             // added for demo purposes
             services.AddDistributedMemoryCache();
@@ -33,7 +44,11 @@ namespace Rmdb.Web.Client
                 // Set a short timeout for easy testing.
                 options.IdleTimeout = TimeSpan.FromMinutes(10);
                 options.Cookie.HttpOnly = true;
-            }); 
+            });
+
+            services.AddHttpContextAccessor();
+            services.AddTransient<IMovieService, MovieSessionStore>();
+            services.AddTransient<IActorService, ActorSessionStore>();
 
             services.AddMvc(options =>
             {
@@ -55,7 +70,7 @@ namespace Rmdb.Web.Client
                 .AddCookie("RMDBCookies")
                 .AddOpenIdConnect("oidc", options =>
                 {
-                    options.Authority = "https://localhost:44351/";
+                    options.Authority = "https://localhost:44359/";
                     options.RequireHttpsMetadata = true;
 
                     // Use the hybrid grant, but ensure access tokens aren't exposed
@@ -91,13 +106,13 @@ namespace Rmdb.Web.Client
             app.UseStaticFiles();
             // for demo purposes
             app.UseSession();
-             
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-        } 
+        }
     }
 }

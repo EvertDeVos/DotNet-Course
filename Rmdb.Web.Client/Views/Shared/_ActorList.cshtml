@@ -1,0 +1,45 @@
+﻿@using Rmdb.Web.Client.ViewModels.Actors
+@model IEnumerable<ActorViewModel>
+
+@{
+    var index = 1;
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @index
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    <a asp-controller="Actors" asp-action="Update" asp-route-id="@item.Id">BijWerken </a> |
+                    <a asp-controller="Actors" asp-action="Delete" asp-route-id="@item.Id ">Verwijderen </a>
+                </td>
+            </tr>
+
+            index++;
+        }
+    </tbody>
+</table>

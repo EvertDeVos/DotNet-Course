@@ -1,0 +1,14 @@
+﻿@model IEnumerable<ActorViewModel>
+
+@{
+    ViewData["Title"] = "Acteurs";
+
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create">Acteur toevoegen</a>
+</p>
+
+<vc:actor-list actors="@Model"></vc:actor-list>

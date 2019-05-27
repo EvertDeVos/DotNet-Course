@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Rmdb.Domain.Model
+namespace Rmdb.Web.Client.Model
 {
     public class MovieActor
     {
@@ -19,6 +22,6 @@ namespace Rmdb.Domain.Model
         public Movie Movie { get; set; }
 
         public Guid ActorId { get; set; }
-        public Person Actor { get; set; }
+        public Actor Actor { get; set; }
     }
 }

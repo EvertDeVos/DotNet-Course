@@ -44,6 +44,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ReleaseDate)
                 </td>
+                <td>
+                    @Html.ActionLink("Bijwerken", "Update", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                    @Html.ActionLink("Verwijderen", "Delete", new { id = item.Id })
+                </td>
             </tr>
 
             index++;

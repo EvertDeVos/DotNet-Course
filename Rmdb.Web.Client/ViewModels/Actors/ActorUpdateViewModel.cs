@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Rmdb.Web.Client.ViewModels.Shared;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rmdb.Web.Client.ViewModels.Director
+namespace Rmdb.Web.Client.ViewModels.Actors
 {
-    public class DirectorCreateViewModel
+    public class ActorUpdateViewModel
     {
         [DisplayName("Voornaam*")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Verplicht")]
@@ -17,14 +18,10 @@ namespace Rmdb.Web.Client.ViewModels.Director
         [Required(AllowEmptyStrings = false, ErrorMessage = "Verplicht")]
         public string LastName { get; set; }
 
-        [DataType(DataType.Date)]
         [DisplayName("Geboortedatum")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}",NullDisplayText ="Selecteer datum")]
-        public DateTime? BirthDate { get; set; }
+        public DateViewModel BirthDate { get; set; }
 
-        [DataType(DataType.Date)]
         [DisplayName("Sterftedatum")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}", NullDisplayText = "Selecteer datum")]
-        public DateTime? Deceased { get; set; }
+        public DateViewModel Deceased { get; set; }
     }
 }

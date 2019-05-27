@@ -31,11 +31,17 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Actors" asp-action="Index">Actors</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Index">Movies</a>
+                        </li>
                         @if (User.Identity.IsAuthenticated)
                         {
-                        <li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Authentication" asp-action="Logout">Logout (@User.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value)</a>
-                        </li>
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Authentication" asp-action="Logout">Logout (@User.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value)</a>
+                            </li>
                         }
                     </ul>
                 </div>
