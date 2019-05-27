@@ -12,5 +12,12 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="TagHelpers\" />
+    <Folder Include="ViewComponents\" />
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
 </Project>
  

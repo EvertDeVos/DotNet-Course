@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using Rmdb.Web.Client.Data.Contracts;
 using Rmdb.Web.Client.Model;
-using Rmdb.Web.Client.ViewModels.Actors;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -13,7 +13,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rmdb.Web.Client.Data.Contracts;
 using Rmdb.Web.Client.Data.SessionStorage;
-using Rmdb.Web.Client.ViewModels.Actors;
 
 namespace Rmdb.Web.Client
 {
@@ -29,12 +28,6 @@ namespace Rmdb.Web.Client
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            Mapper.Initialize(cfg =>
-            {
-                cfg.AddProfile<ActorMapperProfile>();
-            });
-
             // added for demo purposes
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
