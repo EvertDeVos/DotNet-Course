@@ -10,10 +10,8 @@ namespace Rmdb.Web.Client.ViewModels.Actors
     {
         public Guid Id { get; set; }
 
-        [DisplayName("Naam")]
         public string FullName { get; set; }
 
-        [DisplayName("Leeftijd")]
         public string Age { get; set; }
     }
 }

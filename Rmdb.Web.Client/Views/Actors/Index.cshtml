@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Acteurs";
-
+    var index = 1;
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -11,4 +11,41 @@
     <a asp-action="Create">Acteur toevoegen</a>
 </p>
 
-<vc:actor-list actors="@Model"></vc:actor-list>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @index
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    <a asp-controller="Actors" asp-action="Update" asp-route-id="@item.Id">Bijwerken </a> |
+                    <a asp-controller="Actors" asp-action="Delete" asp-route-id="@item.Id ">Verwijderen </a>
+                </td>
+            </tr>
+
+            index++;
+        }
+    </tbody>
+</table>

@@ -14,7 +14,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Rmdb.Web.Client.Data.Contracts;
 using Rmdb.Web.Client.Data.SessionStorage;
 using Rmdb.Web.Client.ViewModels.Actors;
-using Rmdb.Web.Client.ViewModels.Movies;
 
 namespace Rmdb.Web.Client
 {
@@ -33,8 +32,7 @@ namespace Rmdb.Web.Client
 
             Mapper.Initialize(cfg =>
             {
-                cfg.AddProfile<ActorMapperProfile>();
-                cfg.AddProfile<MovieMapperProfile>();
+                cfg.AddProfile<ActorMapperProfile>();                
             });
 
             // added for demo purposes
