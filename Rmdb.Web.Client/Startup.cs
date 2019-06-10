@@ -50,39 +50,7 @@ namespace Rmdb.Web.Client
             services.AddTransient<IMovieService, MovieSessionStore>();
             services.AddTransient<IActorService, ActorSessionStore>();
 
-            services.AddMvc(options =>
-            {
-                // add global authorization filter
-                var policy = new AuthorizationPolicyBuilder()
-                          .RequireAuthenticatedUser()
-                          .Build();
-                options.Filters.Add(new AuthorizeFilter(policy));
-            }
-            ).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = "RMDBCookies";
-                options.DefaultChallengeScheme = "oidc";
-            })
-                .AddCookie("RMDBCookies")
-                .AddOpenIdConnect("oidc", options =>
-                {
-                    options.Authority = "https://localhost:44359/";
-                    options.RequireHttpsMetadata = true;
-
-                    // Use the hybrid grant, but ensure access tokens aren't exposed
-                    // via the front channel
-                    options.ResponseType = "code id_token";
-                    options.ClientId = "rmdbwebclient";
-                    // client secret required for token endpoint access
-                    options.ClientSecret = "2E51842C-56EF-481A-938C-A0C4BF648215";
-                    // always get claims from the userinfo endpoint (to avoid URL length restrictions)
-                    options.GetClaimsFromUserInfoEndpoint = true;
-                    options.SaveTokens = true;
-                });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
 
@@ -99,8 +67,6 @@ namespace Rmdb.Web.Client
                 //// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 //app.UseHsts();
             }
-
-            app.UseAuthentication();
 
             // app.UseHttpsRedirection();
             app.UseStaticFiles();

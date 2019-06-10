@@ -72,11 +72,11 @@ namespace Rmdb.Web.Client.Data.SessionStorage
             if (string.IsNullOrEmpty(content))
             {
                 _actors = new List<Actor> {
-                    new Actor("Christopher", "Nolan") { Id=Guid.NewGuid(), BirthDate= new DateTime(1970,7,30)},
-                    new Actor("Steven", "Spielberg") { Id=Guid.NewGuid(), BirthDate= new DateTime(1948,12,18)},
-                    new Actor("Martin", "Scorsese") { Id=Guid.NewGuid(), BirthDate= new DateTime(1942,10,17)},
-                    new Actor("Alfred", "Hitchcock") { Id=Guid.NewGuid(), BirthDate= new DateTime(1899,8,13), Deceased = new DateTime(1980,4,29)},
-                    new Actor("Hayao", "Miyazaki") { Id=Guid.NewGuid(), BirthDate= new DateTime(1941,1,5)},
+                    new Actor("Tim", "Robins") { Id=Guid.NewGuid(), BirthDate= new DateTime(1958,8,16)},
+                    new Actor("Morgan", "Freeman") { Id=Guid.NewGuid(), BirthDate= new DateTime(1937,6,1)},
+                    new Actor("Alfredo", "Pacino") { Id=Guid.NewGuid(), BirthDate= new DateTime(1940,4,25)},
+                    new Actor("Marlon", "Brando") { Id=Guid.NewGuid(), BirthDate= new DateTime(1924,4,3), Deceased = new DateTime(2004,7,1)},
+                    new Actor("Henry", "Fonda") { Id=Guid.NewGuid(), BirthDate= new DateTime(1905,5,16), Deceased = new DateTime(1982,8,12)},
                 };
                 Save();
                 return;
@@ -96,7 +96,7 @@ namespace Rmdb.Web.Client.Data.SessionStorage
 
                 return a;
             });
-            
+
             var content = JsonConvert.SerializeObject(actors);
             _sessionStorage.SetString(Key, content);
         }
