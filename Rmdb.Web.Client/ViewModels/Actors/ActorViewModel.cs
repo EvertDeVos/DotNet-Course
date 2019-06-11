@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rmdb.Web.Client.ViewModels.Director
+namespace Rmdb.Web.Client.ViewModels.Actors
 {
-    public class DirectorViewModel
+    public class ActorViewModel
     {
         public Guid Id { get; set; }
 

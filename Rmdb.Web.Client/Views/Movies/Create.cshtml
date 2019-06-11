@@ -16,13 +16,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" class="form-control" ></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ReleaseDate" class="control-label"></label>
-                <input asp-for="ReleaseDate" class="form-control" />
-                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+                @Html.EditorFor(vm => vm.ReleaseDate)
             </div>
             <div class="form-group">
                 <label asp-for="RunTime" class="control-label"></label>

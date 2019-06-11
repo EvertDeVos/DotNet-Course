@@ -1,29 +1,28 @@
-﻿using System;
+﻿using Rmdb.Web.Client.ViewModels.Shared;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rmdb.Web.Client.ViewModels.Movie
+namespace Rmdb.Web.Client.ViewModels.Movies
 {
-    public class MovieUpdateViewModel
+    public class MovieCreateViewModel
     {
         [Required(ErrorMessage = "Verplicht*")]
         [MinLength(2, ErrorMessage = "Minstens 2 characters")]
         [DisplayName("Titel")]
         public string Title { get; set; }
 
+
         [DataType(DataType.MultilineText)]
         [DisplayName("Beschrijving")]
         [MaxLength(512, ErrorMessage = "Beschrijving is te lang (max: 512)")]
         public string Description { get; set; }
 
-
-        [DataType(DataType.Date)]
         [DisplayName("Premiere")]
-        [DisplayFormat(DataFormatString = "dd/MM/yyyy", ApplyFormatInEditMode = true)]
-        public DateTime? ReleaseDate { get; set; }
+        public DateViewModel ReleaseDate { get; set; }
 
         [DataType(DataType.Time)]
         [DisplayName("Duur")]

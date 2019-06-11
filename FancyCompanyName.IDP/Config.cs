@@ -40,9 +40,9 @@ namespace FancyCompanyName.IDP
                     AllowedGrantTypes = GrantTypes.Hybrid,
                     ClientSecrets = { new Secret("2E51842C-56EF-481A-938C-A0C4BF648215".Sha256()) },
 
-                    RedirectUris = { "https://localhost:44336/signin-oidc" },
-                    FrontChannelLogoutUri = "https://localhost:44336/signout-oidc",
-                    PostLogoutRedirectUris = { "https://localhost:44336/signout-callback-oidc" },
+                    RedirectUris = { "https://localhost:44321/signin-oidc" },
+                    FrontChannelLogoutUri = "https://localhost:44321/signout-oidc",
+                    PostLogoutRedirectUris = { "https://localhost:44321/signout-callback-oidc" },
 
                     AllowOfflineAccess = true,
                     AllowedScopes = { "openid", "profile", "rmdbapi" }

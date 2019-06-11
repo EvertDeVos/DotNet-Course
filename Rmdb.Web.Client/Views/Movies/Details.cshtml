@@ -4,5 +4,59 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Film details</h1>
 
+<div>
+    <h4 asp-for="Title"></h4>
+    <hr />
+    <dl class="row">
+        <dt asp-for="" class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RunTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RunTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ReleaseDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Score)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Score)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Color)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Color)
+        </dd>
+    </dl>
+</div>
+
+
+<form asp-action="AddActor">
+    <select asp-for="Selected" asp-items="Model.Items"></select> <input type="submit" value="Save" class="btn btn-primary" />
+</form>
+
+<vc:actor-list actors="@Model.Actors"></vc:actor-list>
+
+<div>
+    @Html.ActionLink("Aanpassen", "Update", new { id = Model.Id }) |
+    <a asp-action="Index">Back to List</a>
+</div>

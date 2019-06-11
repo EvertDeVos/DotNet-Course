@@ -7,13 +7,10 @@
 
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <ProjectReference Include="..\Rmdb.Domain.Model\Rmdb.Domain.Model.csproj" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
 </Project>
  

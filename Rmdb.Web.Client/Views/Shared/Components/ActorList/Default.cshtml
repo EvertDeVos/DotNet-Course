@@ -1,15 +1,11 @@
-﻿@model IEnumerable<DirectorViewModel>
+﻿@using Rmdb.Web.Client.ViewModels.Actors
+
+@model IEnumerable<ActorViewModel>
 
 @{
-    ViewData["Title"] = "Regisseurs";
     var index = 1;
 }
 
-<h1>@ViewData["Title"]</h1>
-
-<p>
-    <a asp-action="Create">Regisseur toevoegen</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -39,9 +35,8 @@
                     @Html.DisplayFor(modelItem => item.Age)
                 </td>
                 <td>
-                    @Html.ActionLink("Bijwerken", "Update", new {  id=item.Id  }) |
-                    @*@Html.ActionLink("Details", "Details", new { id=item.PrimaryKey }) | *@
-                    @Html.ActionLink("Verwijderen", "Delete", new { id=item.Id })
+                    <a asp-controller="Actors" asp-action="Update" asp-route-id="@item.Id">BijWerken </a> |
+                    <a asp-controller="Actors" asp-action="Delete" asp-route-id="@item.Id ">Verwijderen </a>
                 </td>
             </tr>
 
