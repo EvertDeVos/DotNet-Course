@@ -2,6 +2,7 @@
 using Rmdb.Domain.Dtos.Movies;
 using Rmdb.Domain.Services;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Rmdb.Web.Api.Controllers
@@ -19,15 +20,20 @@ namespace Rmdb.Web.Api.Controllers
 
         // GET api/movies
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<ActionResult<IEnumerable<MovieListDto>>> Get()
         {
             return Ok(await _movieService.GetAsync());
         }
 
         // GET api/movies/{id}
         [HttpGet("{id:Guid}")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<ActionResult<MovieDetailDto>> Get(Guid id)
         {
+            if (id == Guid.Empty)
+            {
+                return BadRequest();
+            }
+
             var movie = await _movieService.GetAsync(id);
 
             if (movie == null)
@@ -40,7 +46,7 @@ namespace Rmdb.Web.Api.Controllers
 
         // POST api/movies
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] AddMovieDto addMovie)
+        public async Task<IActionResult> Post([FromBody] AddMovieDto addMovie)
         {
             var id = await _movieService.AddAsync(addMovie);
 
