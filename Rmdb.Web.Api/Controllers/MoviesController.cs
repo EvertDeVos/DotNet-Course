@@ -29,9 +29,6 @@ namespace Rmdb.Web.Api.Controllers
 
         // GET api/movies/{id}
         [HttpGet("{id:Guid}")]
-        [RequestHeaderMatchesMediaType(HeaderNames.Accept,
-            "application/json",
-            "application/vnd.rmdb.movie+json")]
         public async Task<ActionResult<MovieDetailDto>> Get(Guid id)
         {
             if (id == Guid.Empty)
