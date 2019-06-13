@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Rmdb.Web.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/actors")]
     [ApiController]
     public class ActorsController : ControllerBase
     {
@@ -15,7 +15,7 @@ namespace Rmdb.Web.Api.Controllers
 
         public ActorsController(IActorService actorService)
         {
-            _actorService = actorService;
+            _actorService = actorService ?? throw new ArgumentNullException(nameof(actorService));
         }
 
         // GET api/actors

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Rmdb.Domain.Dtos.Movies
 {
-    public class MovieDetailDto
+    public class MovieDetailWithActorsDto
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
@@ -13,5 +13,6 @@ namespace Rmdb.Domain.Dtos.Movies
         public TimeSpan RunTime { get; set; }
         public double Score { get; set; }
         public bool Color { get; set; }
+        public IEnumerable<ActorListDto> Actors { get; set; }
     }
 }
