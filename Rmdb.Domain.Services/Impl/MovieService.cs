@@ -31,6 +31,13 @@ namespace Rmdb.Domain.Services.Impl
                 .ProjectTo<MovieDetailDto>()
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
+        
+        public async Task<MovieDetailWithActorsDto> GetWithActorsAsync(Guid id)
+        {
+            return await _ctx.Movies
+                .ProjectTo<MovieDetailWithActorsDto>()
+                .SingleOrDefaultAsync(x => x.Id == id);
+        }
 
         public async Task<Guid> AddAsync(AddMovieDto movie)
         {
@@ -99,5 +106,6 @@ namespace Rmdb.Domain.Services.Impl
 
             return Mapper.Map<ActorListDto>(actor);
         }
+
     }
 }

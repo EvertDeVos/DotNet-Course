@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rmdb.Infrastructure;
 
 namespace Rmdb.Infrastructure.Migrations
 {
     [DbContext(typeof(RmdbContext))]
-    partial class RmdbContextModelSnapshot : ModelSnapshot
+    [Migration("20190517091141_AddRestrictions")]
+    partial class AddRestrictions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
