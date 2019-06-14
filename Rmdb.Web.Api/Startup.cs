@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Rmdb.Domain.Services;
 using Rmdb.Domain.Services.Impl;
 using Rmdb.Domain.Services.Profiles;
 using Rmdb.Infrastructure;
+using System;
 
 namespace Rmdb.Web.Api
 {
@@ -28,10 +30,7 @@ namespace Rmdb.Web.Api
         {
             services.AddDbContext<RmdbContext>(opt => opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            Mapper.Initialize(cfg => {
-                cfg.AddProfile<MovieProfile>();
-                cfg.AddProfile<ActorProfile>();
-            });
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
