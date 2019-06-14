@@ -29,6 +29,10 @@ namespace Rmdb.Web.Api.Controllers
 
         // GET api/movies/{id}
         [HttpGet("{id:Guid}")]
+        [RequestHeaderMatchesMediaType(HeaderNames.Accept,
+            "*/*",
+            "application/json",
+            "application/vnd.rmdb.movie+json")]
         public async Task<ActionResult<MovieDetailDto>> Get(Guid id)
         {
             if (id == Guid.Empty)
@@ -49,7 +53,6 @@ namespace Rmdb.Web.Api.Controllers
         // GET api/movies/{id}
         [HttpGet("{id:Guid}")]
         [RequestHeaderMatchesMediaType(HeaderNames.Accept,
-            "application/json",
             "application/vnd.rmdb.moviewithactors+json")]
         public async Task<ActionResult<MovieDetailWithActorsDto>> GetWithActors(Guid id)
         {
@@ -111,7 +114,7 @@ namespace Rmdb.Web.Api.Controllers
         {
             var actor = await _movieService.AddActorToMovieAsync(id, addActor);
 
-            if(actor == null)
+            if (actor == null)
             {
                 return NotFound();
             }
